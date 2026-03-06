@@ -16,4 +16,11 @@ func set_card(value: Card) -> void:
 	card = value
 	cost.text = str(card.cost)
 	icon.texture = card.icon
+
+	# Keep pixel icons crisp, but smooth downscaled hi-res generated art.
+	if card.icon and (card.icon.get_width() >= 256 or card.icon.get_height() >= 256):
+		icon.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	else:
+		icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	rarity.modulate = Card.RARITY_COLORS[card.rarity]
+

@@ -36,7 +36,12 @@
       ],
       "selected_seed": 581667672,
       "approved": false,
-      "notes": ""
+      "notes": "",
+      "promoted": true,
+      "godot_card_path": "common_cards/promoted/bureaucracy_audit.tres",
+      "godot_icon_path": "art/promoted/card_icons/bureaucracy_audit.png",
+      "promoted_seed": 581667672,
+      "promoted_at": "2026-03-06 00:02:40"
     },
     {
       "id": "bureaucracy_rubber_stamp",
@@ -121,12 +126,17 @@
       ],
       "selected_seed": 1221113004,
       "approved": false,
-      "notes": "Pipeline validation card (house style + 4 variants)."
+      "notes": "Pipeline validation card (house style + 4 variants).",
+      "promoted": true,
+      "godot_card_path": "common_cards/promoted/bureaucracy_form_27b6.tres",
+      "godot_icon_path": "art/promoted/card_icons/bureaucracy_form_27b6.png",
+      "promoted_seed": 1221113004,
+      "promoted_at": "2026-03-05 23:39:17"
     }
   ],
   "art_width_default": 1024,
   "art_height_default": 688,
-  "house_style_positive_default": "1970s editorial illustration style, bold black ink outlines, limited warm color palette, cream and tan backgrounds, muted earth tones, flat cel shading, vintage comic book linework, slightly desaturated colors, retro pulp illustration, bureaucratic office setting, clean graphic composition",
+  "house_style_positive_default": "1970s comic book illustration, retro pulp print look, bold black ink outlines, clean confident linework, flat cel shading, subtle halftone / newsprint texture, limited warm palette (cream, tan, muted earth tones) with slightly richer midtones, clear value contrast and hard-edged shadows, simple graphic composition, no readable text",
   "house_style_negative_default": "photorealistic, 3d render, soft gradients, painterly, watercolor, neon colors, modern digital art, anime, manga, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus",
-  "color_accent_suffix_default": "used sparingly as a graphic highlight against neutral tones"
+  "color_accent_suffix_default": "used sparingly on small props as a graphic highlight (not as a full background wash)"
 }

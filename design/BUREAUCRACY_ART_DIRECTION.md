@@ -48,3 +48,12 @@ Example structure:
 - `coffee shop counter, exhausted worker clutching a stack of forms like a coffee order, barista unimpressed, street scene visible through window`
 - `city sidewalk, filing cabinet on a hand truck, frustrated employee dragging it uphill, papers fluttering, dramatic simple composition`
 - `waiting room full of blank-faced people holding identical forms, one person side-eyeing the camera, subtle absurdity, clean graphic composition`
+## House Style (base prompt)
+Use this as the fixed “house style” prefix. Keep *specific subjects/locations/actions* in the per-card `Subject / Scene` prompt.
+
+**Positive base**
+- `1970s comic book illustration, retro pulp print look, bold black ink outlines, clean confident linework, flat cel shading, subtle halftone / newsprint texture, limited warm palette (cream, tan, muted earth tones) with slightly richer midtones, clear value contrast and hard-edged shadows, simple graphic composition, no readable text`
+
+**Negative base**
+- `photorealistic, 3d render, soft gradients, painterly, watercolor, neon colors, modern digital art, anime, manga, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, readable text, watermark, logo`
+

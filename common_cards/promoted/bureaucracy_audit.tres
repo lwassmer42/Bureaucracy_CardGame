@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Card" format=3 uid="uid://dd0eer861utmt"]
+
+[ext_resource type="Texture2D" uid="uid://b2nnqc10bpye4" path="res://art/promoted/card_icons/bureaucracy_audit.png" id="1_icon"]
+[ext_resource type="Script" uid="uid://c7fromqied45l" path="res://custom_resources/card.gd" id="2_script"]
+[ext_resource type="AudioStream" uid="uid://df64e7qat73gs" path="res://art/block.ogg" id="3_sound"]
+
+[resource]
+script = ExtResource("2_script")
+id = "bureaucracy_audit"
+type = 1
+rarity = 1
+target = 2
+cost = 2
+icon = ExtResource("1_icon")
+tooltip_text = "[center][b]Audit[/b]\\nApply 1 Exposed to ALL enemies. Gain 4 Block.[/center]"
+sound = ExtResource("3_sound")

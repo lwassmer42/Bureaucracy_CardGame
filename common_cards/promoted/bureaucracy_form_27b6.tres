@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Card" format=3 uid="uid://v2ji6n5yle8q"]
+
+[ext_resource type="Texture2D" uid="uid://c40c4s0ppekig" path="res://art/promoted/card_icons/bureaucracy_form_27b6.png" id="1_icon"]
+[ext_resource type="Script" uid="uid://c7fromqied45l" path="res://custom_resources/card.gd" id="2_script"]
+[ext_resource type="AudioStream" uid="uid://df64e7qat73gs" path="res://art/block.ogg" id="3_sound"]
+
+[resource]
+script = ExtResource("2_script")
+id = "bureaucracy_form_27b6"
+type = 1
+cost = 1
+exhausts = true
+icon = ExtResource("1_icon")
+tooltip_text = "[center][b]Form 27-B/6[/b]\\nDraw 2. Gain 3 Block.[/center]"
+sound = ExtResource("3_sound")

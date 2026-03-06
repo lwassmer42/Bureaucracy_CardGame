@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="CardPile" load_steps=9 format=3 uid="uid://cno2mmhf4bjci"]
+[gd_resource type="Resource" script_class="CardPile" format=3 uid="uid://cno2mmhf4bjci"]
 
-[ext_resource type="Script" path="res://custom_resources/card.gd" id="1_byq7g"]
-[ext_resource type="Script" path="res://custom_resources/card_pile.gd" id="1_x06dg"]
+[ext_resource type="Script" uid="uid://c7fromqied45l" path="res://custom_resources/card.gd" id="1_byq7g"]
+[ext_resource type="Script" uid="uid://dyvtijvi4ofoj" path="res://custom_resources/card_pile.gd" id="1_x06dg"]
 [ext_resource type="Resource" uid="uid://n3va254ct6b3" path="res://characters/warrior/cards/warrior_slash.tres" id="2_ur0lo"]
 [ext_resource type="Resource" uid="uid://d20gx8xpmgpdi" path="res://characters/warrior/cards/warrior_big_slam.tres" id="3_nwsc5"]
 [ext_resource type="Resource" uid="uid://cjmd5p8y455xc" path="res://characters/warrior/cards/warrior_trickster.tres" id="4_7uxu8"]

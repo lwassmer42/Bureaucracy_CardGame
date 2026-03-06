@@ -34,6 +34,17 @@ python .\tools\card_gallery\server.py
 - Generated art output: `art/generated/card_art/<card_id>/<card_id>_seed<seed>.png`
 - Imported art (UI **Import** button) is also saved under `art/generated/card_art/<card_id>/...` and auto-added as a variant.
 
+
+## Promote to Godot
+
+In the gallery, select a card and an art variant, then click **Promote**.
+
+This writes tracked Godot assets:
+- `art/promoted/card_icons/<card_id>.png`
+- `common_cards/promoted/<card_id>.tres`
+
+Promoted cards are automatically included in rewards and the shop when running the game (debug builds put promoted cards first so you can see them immediately).
+
 ## Workflow requirements (ComfyUI)
 
 The generator expects your workflow JSON (API prompt graph) to include:
@@ -56,6 +67,19 @@ If markers are missing, the tool uses the first `CLIPTextEncode` as positive and
 - The frame is currently referenced as an SVG: `art/bureaucracy_card_frame_blank_template.svg`.
   If you later export a PNG (e.g. `art/bureaucracy_card_frame_blank_600x900.png`), you can point `design/frame_bureaucracy.json` at it.
 - Generated images are downloaded via the ComfyUI `/view` endpoint and saved into the repo.
+
+## Recovering a lost prompt
+
+If you generated an image in ComfyUI and lost the exact prompt, ComfyUI usually embeds it inside the PNG.
+
+From the repo root:
+
+```powershell
+python .\tools\comfyui\extract_prompt_from_png.py path\to\your.png
+```
+
+It prints the `CLIPTextEncode` text nodes (typically positive + negative) and a small sampler/size summary.
+
 ## House style prompts
 
 If `design/cards_bureaucracy.json` defines:
@@ -74,3 +98,4 @@ Per-card optional fields:
 ## Art direction
 
 See design/BUREAUCRACY_ART_DIRECTION.md for tone + subject/scene guidance (humorous bureaucracy, expressive faces, varied locations).
+

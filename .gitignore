@@ -23,3 +23,8 @@ __pycache__/
 art/generated/
 design/backups/
 output/
+
+# ComfyUI one-off exports (keep out of git)
+tools/ComfyUI_*.png
+tools/ComfyUI_*.png.import
+

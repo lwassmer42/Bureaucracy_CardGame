@@ -64,8 +64,18 @@ func _show_card_rewards() -> void:
 	
 	var card_reward_array: Array[Card] = []
 	var available_cards: Array[Card] = character_stats.draftable_cards.duplicate_cards()
-	
-	for i in run_stats.card_rewards:
+	var promoted_cards: Array[Card] = PromotedCards.load_all_duplicates()
+	available_cards.append_array(promoted_cards)
+
+	# Dev convenience: in debug builds, guarantee promoted cards show up quickly.
+	if OS.has_feature("debug") and not promoted_cards.is_empty():
+		for pc: Card in promoted_cards:
+			if card_reward_array.size() >= run_stats.card_rewards:
+				break
+			card_reward_array.append(pc)
+			available_cards = available_cards.filter(func(c: Card) -> bool: return c.id != pc.id)
+
+	for i in range(run_stats.card_rewards - card_reward_array.size()):
 		_setup_card_chances()
 		var roll := RNG.instance.randf_range(0.0, card_reward_total_weight)
 		
@@ -126,3 +136,7 @@ func _on_relic_reward_taken(relic: Relic) -> void:
 
 func _on_back_button_pressed() -> void: 
 	Events.battle_reward_exited.emit()
+
+
+
+

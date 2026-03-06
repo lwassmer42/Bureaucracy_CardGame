@@ -49,7 +49,18 @@ func _blink_timer_setup() -> void:
 func _generate_shop_cards() -> void:
 	var shop_card_array: Array[Card] = []
 	var available_cards: Array[Card] = char_stats.draftable_cards.duplicate_cards()
+	var promoted_cards: Array[Card] = PromotedCards.load_all_duplicates()
+	available_cards.append_array(promoted_cards)
 	RNG.array_shuffle(available_cards)
+
+	# Dev convenience: in debug builds, put promoted cards first in the shop.
+	if OS.has_feature("debug") and not promoted_cards.is_empty():
+		var promoted_ids := {}
+		for pc: Card in promoted_cards:
+			promoted_ids[pc.id] = true
+		available_cards = available_cards.filter(func(c: Card) -> bool: return not promoted_ids.has(c.id))
+		available_cards = promoted_cards + available_cards
+
 	shop_card_array = available_cards.slice(0, 3)
 	
 	for card: Card in shop_card_array:
@@ -128,3 +139,7 @@ func _on_shop_relic_bought(relic: Relic, gold_cost: int) -> void:
 func _on_blink_timer_timeout() -> void:
 	shop_keeper_animation.play("blink")
 	_blink_timer_setup()
+
+
+
+

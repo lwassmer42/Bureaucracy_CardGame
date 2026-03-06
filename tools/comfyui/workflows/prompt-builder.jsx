@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-const HOUSE_STYLE_POSITIVE = `1970s editorial illustration style, bold black ink outlines, limited warm color palette, cream and tan backgrounds, muted earth tones, flat cel shading, vintage comic book linework, slightly desaturated colors, retro pulp illustration, bureaucratic office setting, clean graphic composition`;
+const HOUSE_STYLE_POSITIVE = `1970s comic book illustration, retro pulp print look, bold black ink outlines, clean confident linework, flat cel shading, subtle halftone / newsprint texture, limited warm palette (cream, tan, muted earth tones) with slightly richer midtones, clear value contrast and hard-edged shadows, simple graphic composition, no readable text`;
 
 const HOUSE_STYLE_NEGATIVE = `photorealistic, 3d render, soft gradients, painterly, watercolor, neon colors, modern digital art, anime, manga, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus`;
 
-const COLOR_ACCENT_SUFFIX = `used sparingly as a graphic highlight against neutral tones`;
+const COLOR_ACCENT_SUFFIX = `used sparingly on small props as a graphic highlight (not as a full background wash)`;
 
 const PRESET_CARDS = [
   { name: "Red Tape", color: "deep red", subject: "rolls of red bureaucratic tape binding documents, frustrated office worker, filing cabinet" },
@@ -334,3 +334,5 @@ export default function PromptBuilder() {
     </div>
   );
 }
+
+

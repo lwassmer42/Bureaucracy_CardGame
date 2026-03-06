@@ -28,10 +28,18 @@ function slugify(input) {
     .slice(0, 60) || 'card';
 }
 
+async function readResponse(res) {
+  const text = await res.text();
+  let data = null;
+  try { data = text ? JSON.parse(text) : null; } catch { data = null; }
+  return { text, data };
+}
+
 async function apiGet(path) {
   const res = await fetch(path);
-  if (!res.ok) throw new Error(await res.text());
-  return await res.json();
+  const { text, data } = await readResponse(res);
+  if (!res.ok) throw new Error((data && data.error) || text || `HTTP ${res.status}`);
+  return data;
 }
 
 async function apiPost(path, body) {
@@ -40,12 +48,9 @@ async function apiPost(path, body) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
-  if (!res.ok) {
-    let msg;
-    try { msg = (await res.json()).error; } catch { msg = await res.text(); }
-    throw new Error(msg || `HTTP ${res.status}`);
-  }
-  return await res.json();
+  const { text, data } = await readResponse(res);
+  if (!res.ok) throw new Error((data && data.error) || text || `HTTP ${res.status}`);
+  return data;
 }
 
 function getActiveCard() {
@@ -67,8 +72,10 @@ function renderCardList() {
                       <div class="muted" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${card.id}</div>`;
 
     const badge = document.createElement('div');
-    badge.className = 'badge' + (card.approved ? ' approved' : '');
-    badge.textContent = card.approved ? 'APPROVED' : 'DRAFT';
+    const promoted = !!card.promoted;
+    const approved = !!card.approved;
+    badge.className = 'badge' + ((promoted || approved) ? ' approved' : '');
+    badge.textContent = promoted ? 'PROMOTED' : (approved ? 'APPROVED' : 'DRAFT');
 
     row.appendChild(left);
     row.appendChild(badge);
@@ -81,6 +88,8 @@ function renderCardList() {
 function bindEditor(card) {
   el('activeCardId').textContent = card ? card.id : '(no card selected)';
   el('approveBtn').textContent = card?.approved ? 'Unapprove' : 'Approve';
+  el('promoteBtn').textContent = card?.promoted ? 'Re-promote' : 'Promote';
+  el('promoteBtn').disabled = !card || !card.selected_seed;
 
   const set = (id, val) => { el(id).value = (val ?? ''); };
 
@@ -124,6 +133,8 @@ function bindEditor(card) {
     card.negative_prompt = el('negativeInput').value.trim() ? el('negativeInput').value : null;
     card.notes = el('notesInput').value;
     el('approveBtn').textContent = card.approved ? 'Unapprove' : 'Approve';
+    el('promoteBtn').textContent = card.promoted ? 'Re-promote' : 'Promote';
+    el('promoteBtn').disabled = !card.selected_seed;
     renderCardList();
     renderVariants();
     renderPreview().catch(e => setStatus("Render failed: " + e.message));
@@ -390,6 +401,8 @@ function renderVariants() {
 
     wrap.addEventListener('click', async () => {
       card.selected_seed = v.seed;
+      el('promoteBtn').disabled = !card.selected_seed;
+      el('promoteBtn').textContent = card.promoted ? 'Re-promote' : 'Promote';
       renderVariants();
       await renderPreview().catch(e => setStatus("Render failed: " + e.message));
     });
@@ -424,7 +437,7 @@ async function reloadAll() {
   state.frameImg = null;
   state.artImgCache.clear();
 
-  if (!state.activeId && state.cardsDoc.cards?.length) {
+  if (!state.activeId && state.cardsDoc?.cards?.length) {
     state.activeId = state.cardsDoc.cards[0].id;
   }
 
@@ -463,6 +476,26 @@ async function generateVariants() {
   }
 }
 
+
+async function promoteCard() {
+  const card = getActiveCard();
+  if (!card) return;
+
+  setStatus('Promoting to Godot…');
+  try {
+    const updatedDoc = await apiPost('/api/promote', { card_id: card.id });
+    state.cardsDoc = updatedDoc;
+    renderCardList();
+    bindEditor(getActiveCard());
+    renderVariants();
+    await renderPreview().catch(e => setStatus('Render failed: ' + e.message));
+    setStatus('Promoted. Open Godot and check rewards/shop.');
+    setTimeout(() => setStatus(''), 1800);
+  } catch (e) {
+    setStatus(`Promote failed: ${e.message}`);
+  }
+}
+
 async function importArt() {
   const card = getActiveCard();
   if (!card) return;
@@ -483,12 +516,13 @@ async function handleImportFile() {
 
   try {
     const res = await fetch('/api/upload_art', { method: "POST", body: fd });
+    const text = await res.text();
+    let data = null;
+    try { data = text ? JSON.parse(text) : null; } catch { data = null; }
     if (!res.ok) {
-      let msg;
-      try { msg = (await res.json()).error; } catch { msg = await res.text(); }
-      throw new Error(msg || `HTTP ${res.status}`);
+      throw new Error((data && data.error) || text || `HTTP ${res.status}`);
     }
-    const updatedDoc = await res.json();
+    const updatedDoc = data;
     state.cardsDoc = updatedDoc;
     renderCardList();
     bindEditor(getActiveCard());
@@ -566,6 +600,7 @@ function init() {
   el('newCardBtn').addEventListener('click', newCard);
   el('deleteBtn').addEventListener('click', deleteCard);
   el('approveBtn').addEventListener('click', toggleApprove);
+  el('promoteBtn').addEventListener('click', promoteCard);
 
   reloadAll().catch(e => setStatus(`Load failed: ${e.message}`));
 }
