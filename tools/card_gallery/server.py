@@ -35,6 +35,8 @@ DEFAULT_PORT = 8787
 DEFAULT_COMFYUI_URL = "http://127.0.0.1:8188"
 DEFAULT_ART_WIDTH = 1024
 DEFAULT_ART_HEIGHT = 688
+DEFAULT_COMFYUI_JOB_TIMEOUT_S = 1800.0  # 30 minutes
+
 
 _write_lock = threading.Lock()
 
@@ -476,7 +478,8 @@ class Handler(BaseHTTPRequestHandler):
             )
 
             prompt_graph = injected.get("prompt") if isinstance(injected.get("prompt"), dict) else injected
-            prompt_id = submit_and_wait(comfyui_url, prompt_graph=prompt_graph)
+            timeout_s = float(os.environ.get("COMFYUI_JOB_TIMEOUT_S") or DEFAULT_COMFYUI_JOB_TIMEOUT_S)
+            prompt_id = submit_and_wait(comfyui_url, prompt_graph=prompt_graph, timeout_s=timeout_s)
             ref = get_first_image_ref(comfyui_url, prompt_id)
             img = download_image_bytes(comfyui_url, ref)
 
@@ -658,6 +661,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
