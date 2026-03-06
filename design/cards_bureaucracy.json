@@ -82,7 +82,7 @@
       "target": "SELF",
       "rules_text": "Draw 2. Gain 3 Block.",
       "art_prompt": "towering stack of identical government forms, rubber stamp, desk lamp casting hard shadows",
-      "color_accent": "mustard yellow",
+      "color_accent": "",
       "use_house_style": true,
       "negative_prompt": null,
       "variants": [
@@ -101,6 +101,22 @@
         {
           "seed": 1047003873,
           "file": "art/generated/card_art/bureaucracy_form_27b6/bureaucracy_form_27b6_seed1047003873.png"
+        },
+        {
+          "seed": 1183647823,
+          "file": "art/generated/card_art/bureaucracy_form_27b6/bureaucracy_form_27b6_seed1183647823.png"
+        },
+        {
+          "seed": 940640798,
+          "file": "art/generated/card_art/bureaucracy_form_27b6/bureaucracy_form_27b6_seed940640798.png"
+        },
+        {
+          "seed": 1045065375,
+          "file": "art/generated/card_art/bureaucracy_form_27b6/bureaucracy_form_27b6_seed1045065375.png"
+        },
+        {
+          "seed": 43154802,
+          "file": "art/generated/card_art/bureaucracy_form_27b6/bureaucracy_form_27b6_seed43154802.png"
         }
       ],
       "selected_seed": 1221113004,

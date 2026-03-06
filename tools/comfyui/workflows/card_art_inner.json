@@ -39,9 +39,9 @@
       "inputs": {
         "seed": 123,
         "steps": 8,
-        "cfg": 7,
+        "cfg": 2.0,
         "sampler_name": "euler",
-        "scheduler": "normal",
+        "scheduler": "ddim_uniform",
         "denoise": 1,
         "model": [
           "4",
