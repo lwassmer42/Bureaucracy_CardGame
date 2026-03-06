@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Card Gallery (Bureaucracy)</title>
+  <link rel="stylesheet" href="/web/styles.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="title">Card Gallery</div>
+        <div class="subtitle">Bureaucracy deck</div>
+      </div>
+
+      <div class="sidebar-actions">
+        <button id="newCardBtn" class="btn btn-secondary">New Card</button>
+        <button id="reloadBtn" class="btn btn-secondary">Reload</button>
+      </div>
+
+      <div class="card-list" id="cardList"></div>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-left">
+          <div id="activeCardId" class="muted">(no card selected)</div>
+        </div>
+        <div class="topbar-right">
+          <button id="saveBtn" class="btn btn-primary">Save</button>
+          <button id="approveBtn" class="btn btn-secondary">Approve</button>
+        </div>
+      </div>
+
+      <div class="content">
+        <section class="preview">
+          <canvas id="previewCanvas" width="600" height="900"></canvas>
+          <div class="variants">
+            <div class="variants-header">
+              <div>
+                <span class="label">Variants</span>
+                <span id="variantHint" class="muted"></span>
+              </div>
+              <div class="variants-actions">
+                <input id="importFile" type="file" accept="image/png,image/jpeg,image/webp" style="display:none" />
+                <button id="importBtn" class="btn btn-secondary">Import</button>
+                <input id="genCount" type="number" min="1" max="20" value="4" />
+                <button id="generateBtn" class="btn btn-secondary">Generate</button>
+              </div>
+            </div>
+            <div id="variantStrip" class="variant-strip"></div>
+          </div>
+        </section>
+
+        <section class="editor">
+          <div class="form">
+            <label>
+              <span>Name</span>
+              <input id="nameInput" type="text" />
+            </label>
+
+            <div class="row">
+              <label>
+                <span>Cost</span>
+                <input id="costInput" type="number" min="0" max="9" />
+              </label>
+              <label>
+                <span>Type</span>
+                <select id="typeInput">
+                  <option>ATTACK</option>
+                  <option>SKILL</option>
+                  <option>POWER</option>
+                </select>
+              </label>
+              <label>
+                <span>Rarity</span>
+                <select id="rarityInput">
+                  <option>COMMON</option>
+                  <option>UNCOMMON</option>
+                  <option>RARE</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              <span>Target</span>
+              <select id="targetInput">
+                <option>SELF</option>
+                <option>SINGLE_ENEMY</option>
+                <option>ALL_ENEMIES</option>
+                <option>EVERYONE</option>
+              </select>
+            </label>
+            <label>
+              <span>Art Fit</span>
+              <select id="artFitInput">
+                <option value="cover">Cover (crop)</option>
+                <option value="contain">Contain (no crop)</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Rules Text</span>
+              <textarea id="rulesInput" rows="5"></textarea>
+            </label>
+
+            <label>
+              <span>Art Prompt (ComfyUI)</span>
+              <textarea id="promptInput" rows="5"></textarea>
+            </label>
+
+            <label>
+              <span>Negative Prompt (optional override)</span>
+              <textarea id="negativeInput" rows="3" placeholder="(uses global default if empty)"></textarea>
+            </label>
+
+            <label>
+              <span>Notes</span>
+              <textarea id="notesInput" rows="3"></textarea>
+            </label>
+
+            <div class="danger">
+              <button id="deleteBtn" class="btn btn-danger">Delete Card</button>
+            </div>
+          </div>
+
+          <div class="status" id="status"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="/web/app.js"></script>
+</body>
+</html>

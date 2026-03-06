@@ -1,0 +1,42 @@
+{
+  "card_size": {
+    "w": 600,
+    "h": 900
+  },
+  "frame_texture": "art/bureaucracy_card_frame_blank_template_v3.svg",
+  "art_rect": {
+    "x": 28,
+    "y": 202,
+    "w": 544,
+    "h": 366
+  },
+  "name_rect": {
+    "x": 124,
+    "y": 136,
+    "w": 332,
+    "h": 44
+  },
+  "rules_rect": {
+    "x": 28,
+    "y": 632,
+    "w": 544,
+    "h": 180
+  },
+  "rarity_rect": {
+    "x": 468,
+    "y": 136,
+    "w": 108,
+    "h": 32
+  },
+  "cost_center": {
+    "cx": 68,
+    "cy": 136
+  },
+  "fonts": {
+    "family": "Courier New, ui-monospace, Menlo, Consolas, monospace"
+  },
+  "rarity_font_px": 12,
+  "rarity_value_offset_y": 9,
+  "rarity_tracking_px": 1.8,
+  "rarity_padding_px": 6
+}

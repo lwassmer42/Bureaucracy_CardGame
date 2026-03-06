@@ -1,0 +1,74 @@
+{
+  "variants_per_card_default": 4,
+  "negative_prompt_default": "text, watermark, logo, signature, blurry, low quality, jpeg artifacts",
+  "comfyui_url_default": "http://127.0.0.1:8188",
+  "cards": [
+    {
+      "id": "bureaucracy_red_tape",
+      "name": "Red Tape",
+      "type": "SKILL",
+      "rarity": "COMMON",
+      "cost": 1,
+      "target": "SINGLE_ENEMY",
+      "rules_text": "Apply 2 Exposed. Draw 1.",
+      "art_prompt": "A bureaucratic illustration: a spool of red tape wrapped around a stamped document, paper texture, inked lines, subtle shading, official stamp marks, no text.",
+      "negative_prompt": null,
+      "variants": [],
+      "selected_seed": null,
+      "approved": false,
+      "notes": "Starter example card for the gallery."
+    },
+    {
+      "id": "bureaucracy_audit",
+      "name": "Audit",
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "cost": 2,
+      "target": "ALL_ENEMIES",
+      "rules_text": "Apply 1 Exposed to ALL enemies. Gain 4 Block.",
+      "art_prompt": "A stern-looking stamp and a checklist clipboard over layered paperwork, sepia ink illustration, paper grain, official vibe, no text.",
+      "negative_prompt": null,
+      "variants": [],
+      "selected_seed": null,
+      "approved": false,
+      "notes": ""
+    },
+    {
+      "id": "bureaucracy_rubber_stamp",
+      "name": "Rubber Stamp",
+      "type": "POWER",
+      "rarity": "RARE",
+      "cost": 3,
+      "target": "SELF",
+      "rules_text": "At the start of your turn, draw 1 and gain 1 Muscle.",
+      "art_prompt": "A heavy rubber stamp pressed onto paper with a bold circular imprint shape (blank, no letters), ink illustration, paper texture, dramatic lighting, no text.",
+      "negative_prompt": null,
+      "variants": [],
+      "selected_seed": null,
+      "approved": false,
+      "notes": ""
+    },
+    {
+      "id": "browbeat",
+      "name": "browbeat",
+      "type": "ATTACK",
+      "rarity": "COMMON",
+      "cost": 1,
+      "target": "SINGLE_ENEMY",
+      "rules_text": "Deal 6 physical damage",
+      "art_prompt": "Describe the artwork here (no text).",
+      "negative_prompt": null,
+      "variants": [
+        {
+          "seed": 999000001,
+          "file": "design/card_art/bureaucracy_re/browbeat.png"
+        }
+      ],
+      "selected_seed": 999000001,
+      "approved": false,
+      "notes": ""
+    }
+  ],
+  "art_width_default": 1024,
+  "art_height_default": 688
+}

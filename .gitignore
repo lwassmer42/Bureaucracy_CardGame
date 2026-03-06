@@ -12,3 +12,14 @@ export_presets.cfg
 # Mono-specific ignores
 .mono/
 data_*/
+
+# Python
+__pycache__/
+*.pyc
+# Godot UID sidecars (generated)
+*.uid
+
+# Card gallery dev tool outputs
+art/generated/
+design/backups/
+output/
