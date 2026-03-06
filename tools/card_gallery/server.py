@@ -437,6 +437,39 @@ class Handler(BaseHTTPRequestHandler):
         if not isinstance(contains_people, bool):
             contains_people = None
 
+        if contains_people is None:
+            # Auto-balance toward a target mix of (no people) vs (people) across the deck.
+            try:
+                target_no_people = float(cards_doc.get("no_people_ratio_default", 0.6))
+            except Exception:  # noqa: BLE001
+                target_no_people = 0.6
+
+            if target_no_people < 0.0 or target_no_people > 1.0:
+                target_no_people = 0.6
+
+            known_total = 0
+            known_no_people = 0
+            for c in cards:
+                if not isinstance(c, dict):
+                    continue
+                v = c.get("contains_people")
+                if isinstance(v, bool):
+                    known_total += 1
+                    if v is False:
+                        known_no_people += 1
+
+            if known_total >= 5:
+                current_no_people = known_no_people / known_total
+                if abs(current_no_people - target_no_people) < 0.05:
+                    choose_no_people = secrets.randbelow(10_000) < int(target_no_people * 10_000)
+                else:
+                    choose_no_people = current_no_people < target_no_people
+            else:
+                choose_no_people = secrets.randbelow(10_000) < int(target_no_people * 10_000)
+
+            contains_people = not choose_no_people
+            card["contains_people"] = contains_people
+
         if contains_people is False:
             no_people_suffix = cards_doc.get("no_people_negative_suffix_default")
             if isinstance(no_people_suffix, str) and no_people_suffix.strip():

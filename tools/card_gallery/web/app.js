@@ -92,7 +92,6 @@ function bindEditor(card) {
   el('promoteBtn').disabled = !card || !card.selected_seed;
 
   const set = (id, val) => { el(id).value = (val ?? ''); };
-  const setChk = (id, val) => { el(id).checked = !!val; };
 
   if (!card) {
     set('nameInput', '');
@@ -106,7 +105,7 @@ function bindEditor(card) {
     set('accentInput', '');
     set('negativeInput', '');
     set('notesInput', '');
-    setChk('containsPeopleInput', false);
+    set('peopleModeInput', 'auto');
     return;
   }
 
@@ -121,7 +120,8 @@ function bindEditor(card) {
   set('accentInput', card.color_accent || '');
   set('negativeInput', card.negative_prompt || '');
   set('notesInput', card.notes || '');
-  setChk('containsPeopleInput', !!card.contains_people);
+  const peopleMode = (card.contains_people === true) ? 'yes' : ((card.contains_people === false) ? 'no' : 'auto');
+  set('peopleModeInput', peopleMode);
 
   const onChange = () => {
     card.name = el('nameInput').value;
@@ -135,7 +135,8 @@ function bindEditor(card) {
     card.color_accent = el('accentInput').value;
     card.negative_prompt = el('negativeInput').value.trim() ? el('negativeInput').value : null;
     card.notes = el('notesInput').value;
-    card.contains_people = !!el('containsPeopleInput').checked;
+    const peopleMode = el('peopleModeInput').value;
+    card.contains_people = (peopleMode === 'yes') ? true : ((peopleMode === 'no') ? false : null);
     el('approveBtn').textContent = card.approved ? 'Unapprove' : 'Approve';
     el('promoteBtn').textContent = card.promoted ? 'Re-promote' : 'Promote';
     el('promoteBtn').disabled = !card.selected_seed;
@@ -148,8 +149,8 @@ function bindEditor(card) {
     el(id).oninput = onChange;
     el(id).onchange = onChange;
   }
-  el('containsPeopleInput').oninput = onChange;
-  el('containsPeopleInput').onchange = onChange;
+  el('peopleModeInput').oninput = onChange;
+  el('peopleModeInput').onchange = onChange;
 }
 
 async function loadImage(src) {
@@ -564,7 +565,7 @@ function newCard() {
     rules_text: 'Describe the effect here.',
     art_prompt: 'Describe the artwork here (no text).',
     negative_prompt: null,
-    contains_people: false,
+    contains_people: null,
     variants: [],
     selected_seed: null,
     approved: false,

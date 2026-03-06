@@ -65,3 +65,4 @@ Reason: SDXL Lightning tends to fumble hands/faces more often; we get better con
 
 Pipeline note:
 - Use `contains_people = false` on cards that should avoid humans (the generator adds extra “no people” negatives).
+- Leave \\contains_people\\ unset / null (People In Art = Auto) to let the generator auto-balance toward the target mix; set it to true/false only when you want to force it.

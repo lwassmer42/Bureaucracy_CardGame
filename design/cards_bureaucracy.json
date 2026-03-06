@@ -2,6 +2,7 @@
   "variants_per_card_default": 4,
   "negative_prompt_default": "text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
   "no_people_negative_suffix_default": "people, person, human, face, faces, crowd, full body, portrait",
+  "no_people_ratio_default": 0.6,
   "comfyui_url_default": "http://127.0.0.1:8188",
   "cards": [
     {
