@@ -5,7 +5,7 @@ const FRAME_CONFIG_PATH := "res://design/frame_bureaucracy.json"
 const CARDS_DOC_PATH := "res://design/cards_bureaucracy.json"
 
 @export var card: Card : set = set_card
-@export_range(0.25, 1.5, 0.01) var display_scale := 1.0 : set = set_display_scale
+@export_range(0.05, 2.0, 0.01) var display_scale := 1.0 : set = set_display_scale
 
 @onready var frame_rect: TextureRect = $Frame
 @onready var art_rect: TextureRect = $Art
@@ -32,10 +32,19 @@ func set_card(value: Card) -> void:
 
 
 func set_display_scale(value: float) -> void:
-	display_scale = clampf(value, 0.25, 1.5)
+	display_scale = clampf(value, 0.05, 2.0)
 	if not is_node_ready():
 		await ready
 	_apply_layout_and_content()
+
+
+func get_base_card_size() -> Vector2:
+	if _frame_cfg.is_empty():
+		_frame_cfg = _read_json(FRAME_CONFIG_PATH)
+	var card_size = _frame_cfg.get("card_size", {})
+	if typeof(card_size) == TYPE_DICTIONARY:
+		return Vector2(float(card_size.get("w", 600)), float(card_size.get("h", 900)))
+	return Vector2(600, 900)
 
 
 func _read_json(path: String) -> Dictionary:
@@ -94,17 +103,16 @@ func _apply_layout_and_content() -> void:
 		if not frame_path.begins_with("res://"):
 			frame_path = "res://" + frame_path
 		frame_rect.texture = load(frame_path)
+		frame_rect.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	else:
 		frame_rect.texture = null
 
 	if card and card.icon:
 		art_rect.texture = card.icon
-		if card.icon.get_width() >= 256 or card.icon.get_height() >= 256:
-			art_rect.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-		else:
-			art_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		art_rect.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR if card.icon.get_width() >= 256 or card.icon.get_height() >= 256 else CanvasItem.TEXTURE_FILTER_NEAREST
 	else:
 		art_rect.texture = null
+		art_rect.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 
 	if card:
 		name_label.text = String(design_card.get("name", _pretty_name(card.id)))
@@ -120,12 +128,11 @@ func _apply_layout_and_content() -> void:
 		cost_label.text = ""
 		rules_label.text = ""
 
-	var card_size = _frame_cfg.get("card_size", {})
-	if typeof(card_size) == TYPE_DICTIONARY:
-		var scaled_size := Vector2(float(card_size.get("w", 600)), float(card_size.get("h", 900))) * scale_factor
-		size = scaled_size
-		custom_minimum_size = scaled_size
-		frame_rect.size = scaled_size
+	var card_size := get_base_card_size()
+	var scaled_size := card_size * scale_factor
+	size = scaled_size
+	custom_minimum_size = scaled_size
+	frame_rect.size = scaled_size
 
 	var ar = _frame_cfg.get("art_rect", {})
 	if typeof(ar) == TYPE_DICTIONARY:

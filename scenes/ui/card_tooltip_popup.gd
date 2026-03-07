@@ -2,7 +2,7 @@ class_name CardTooltipPopup
 extends Control
 
 const CARD_VISUALS_FULL_SCENE := preload("res://scenes/ui/card_visuals_full.tscn")
-const TOOLTIP_CARD_SCALE := 0.72
+const VIEWPORT_PADDING := Vector2(10, 8)
 
 @export var background_color: Color = Color("000000b0")
 
@@ -14,15 +14,16 @@ const TOOLTIP_CARD_SCALE := 0.72
 func _ready() -> void:
 	_clear_cards()
 	background.color = background_color
+	card_description.visible = false
 
 
 func show_tooltip(card: Card) -> void:
 	_clear_cards()
 	var new_card = CARD_VISUALS_FULL_SCENE.instantiate()
 	tooltip_card.add_child(new_card)
-	new_card.display_scale = TOOLTIP_CARD_SCALE
+	new_card.display_scale = _get_tooltip_card_scale(new_card.get_base_card_size())
 	new_card.card = card
-	card_description.text = card.get_default_tooltip()
+	card_description.visible = false
 	show()
 
 
@@ -37,6 +38,11 @@ func hide_tooltip() -> void:
 func _clear_cards() -> void:
 	for child: Node in tooltip_card.get_children():
 		child.queue_free()
+
+
+func _get_tooltip_card_scale(base_size: Vector2) -> float:
+	var viewport_size := get_viewport_rect().size - (VIEWPORT_PADDING * 2.0)
+	return clampf(minf(viewport_size.x / base_size.x, viewport_size.y / base_size.y), 0.05, 1.0)
 
 
 func _on_gui_input(event: InputEvent) -> void:
