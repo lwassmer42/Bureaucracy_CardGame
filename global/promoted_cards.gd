@@ -26,5 +26,5 @@ static func load_all() -> Array[Card]:
 static func load_all_duplicates() -> Array[Card]:
 	var out: Array[Card] = []
 	for card: Card in load_all():
-		out.append(card.duplicate())
+		out.append(card.create_instance_copy())
 	return out

@@ -11,7 +11,7 @@ func _ready() -> void:
 
 
 func duplicate_last_card() -> void:
-	character_stats.deck.add_card(character_stats.deck.cards[-1].duplicate())
+	character_stats.deck.add_card(character_stats.deck.cards[-1].create_instance_copy())
 
 
 func plus_max_hp() -> void:

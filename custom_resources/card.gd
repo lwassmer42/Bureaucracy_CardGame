@@ -4,6 +4,7 @@ extends Resource
 enum Type {ATTACK, SKILL, POWER}
 enum Rarity {COMMON, UNCOMMON, RARE}
 enum Target {SELF, SINGLE_ENEMY, ALL_ENEMIES, EVERYONE}
+enum Keyword {ARCHIVE, FILE, CHAIN, CURSE, BUDGET_MODE}
 
 const RARITY_COLORS := {
 	Card.Rarity.COMMON: Color.GRAY,
@@ -18,15 +19,33 @@ const RARITY_COLORS := {
 @export var target: Target
 @export var cost: int
 @export var exhausts: bool = false
+@export var keywords: Array[Keyword] = []
 
 @export_group("Card Visuals")
 @export var icon: Texture
 @export_multiline var tooltip_text: String
 @export var sound: AudioStream
 
+@export_group("Card Runtime")
+@export var instance_uid := ""
+@export_range(0, 3) var upgrade_tier := 0
+@export var reviewed_stacks := 0
+
 
 func is_single_targeted() -> bool:
 	return target == Target.SINGLE_ENEMY
+
+
+func ensure_instance_uid() -> Card:
+	if instance_uid.is_empty():
+		instance_uid = "%s_%s_%s" % [id, Time.get_unix_time_from_system(), Time.get_ticks_usec()]
+	return self
+
+
+func create_instance_copy() -> Card:
+	var copy := duplicate() as Card
+	copy.ensure_instance_uid()
+	return copy
 
 
 func _get_targets(targets: Array[Node]) -> Array[Node]:
