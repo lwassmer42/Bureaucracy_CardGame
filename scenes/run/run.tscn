@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dx377oa3pkut" path="res://scenes/ui/card_pile_opener.tscn" id="4_ayx7e"]
 [ext_resource type="PackedScene" uid="uid://jfu1yenfdod5" path="res://scenes/ui/gold_ui.tscn" id="4_dtarl"]
 [ext_resource type="PackedScene" path="res://scenes/ui/budget_ui.tscn" id="4_xbgt1"]
-[ext_resource type="PackedScene" uid="uid://b3dkx1dqlo0eo" path="res://scenes/ui/health_ui.tscn" id="4_k05q4"]
+[ext_resource type="PackedScene" path="res://scenes/ui/topbar_health_ui.tscn" id="4_k05q4"]
 [ext_resource type="Texture2D" uid="uid://bc0ciu8ene25v" path="res://art/deck.png" id="5_dw5bf"]
 [ext_resource type="PackedScene" uid="uid://d2jq2r5hb1ajk" path="res://scenes/ui/card_pile_view.tscn" id="6_4w0b2"]
 [ext_resource type="PackedScene" uid="uid://bltkcscivnh8p" path="res://scenes/relic_handler/relic_handler.tscn" id="6_f8fbw"]
