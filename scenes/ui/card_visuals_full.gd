@@ -16,11 +16,13 @@ const CARDS_DOC_PATH := "res://design/cards_bureaucracy.json"
 
 var _frame_cfg: Dictionary = {}
 var _cards_doc: Dictionary = {}
+var _full_card_theme: Theme
 
 
 func _ready() -> void:
 	_frame_cfg = _read_json(FRAME_CONFIG_PATH)
 	_cards_doc = _read_json(CARDS_DOC_PATH)
+	_apply_full_card_theme()
 	_apply_layout_and_content()
 
 
@@ -55,6 +57,18 @@ func _read_json(path: String) -> Dictionary:
 	f.close()
 	var parsed = JSON.parse_string(txt)
 	return parsed if typeof(parsed) == TYPE_DICTIONARY else {}
+
+
+func _apply_full_card_theme() -> void:
+	if _full_card_theme == null:
+		_full_card_theme = Theme.new()
+		if ThemeDB.fallback_font:
+			_full_card_theme.default_font = ThemeDB.fallback_font
+			_full_card_theme.set_font("normal_font", "RichTextLabel", ThemeDB.fallback_font)
+		_full_card_theme.default_font_size = 18
+		_full_card_theme.set_font_size("normal_font_size", "RichTextLabel", 20)
+
+	theme = _full_card_theme
 
 
 func _find_design_card(id: String) -> Dictionary:
@@ -127,6 +141,15 @@ func _apply_layout_and_content() -> void:
 		rarity_label.text = ""
 		cost_label.text = ""
 		rules_label.text = ""
+
+	var name_font_size := maxi(int(round(28.0 * scale_factor)), 9)
+	var rarity_font_size := maxi(int(round(16.0 * scale_factor)), 7)
+	var cost_font_size := maxi(int(round(36.0 * scale_factor)), 10)
+	var rules_font_size := maxi(int(round(20.0 * scale_factor)), 8)
+	name_label.add_theme_font_size_override("font_size", name_font_size)
+	rarity_label.add_theme_font_size_override("font_size", rarity_font_size)
+	cost_label.add_theme_font_size_override("font_size", cost_font_size)
+	rules_label.add_theme_font_size_override("normal_font_size", rules_font_size)
 
 	var card_size := get_base_card_size()
 	var scaled_size := card_size * scale_factor
