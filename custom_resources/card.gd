@@ -30,6 +30,15 @@ const RARITY_COLORS := {
 @export var budget_cost := 0
 @export var budget_gain := 0
 
+@export_group("Chain")
+@export var chain_id := ""
+@export_range(0, 10) var chain_step := 0
+@export_range(0, 5) var chain_window_turns := 1
+@export var chain_bonus_damage := 0
+@export var chain_bonus_block := 0
+@export var chain_bonus_cards_to_draw := 0
+@export var chain_bonus_exposed_to_apply := 0
+
 @export_group("Card Visuals")
 @export var icon: Texture
 @export_multiline var tooltip_text: String
@@ -91,10 +100,11 @@ func play(targets: Array[Node], char_stats: CharacterStats, modifiers: ModifierH
 	if budget_cost > 0 and run_stats != null:
 		run_stats.spend_budget(budget_cost)
 
-	if is_single_targeted():
-		apply_effects(targets, modifiers)
-	else:
-		apply_effects(_get_targets(targets), modifiers)
+	var resolved_targets := targets if is_single_targeted() else _get_targets(targets)
+	var chain_bonus_active := ChainTracker.register_play(self)
+	apply_effects(resolved_targets, modifiers)
+	if chain_bonus_active:
+		_apply_chain_bonus_effects(resolved_targets, modifiers)
 
 	if budget_gain > 0 and run_stats != null:
 		run_stats.gain_budget(budget_gain)
@@ -102,27 +112,35 @@ func play(targets: Array[Node], char_stats: CharacterStats, modifiers: ModifierH
 
 
 func apply_effects(targets: Array[Node], modifiers: ModifierHandler) -> void:
-	if damage > 0:
+	_apply_effect_bundle(targets, modifiers, damage, block_amount, cards_to_draw, exposed_to_apply)
+
+
+func _apply_chain_bonus_effects(targets: Array[Node], modifiers: ModifierHandler) -> void:
+	_apply_effect_bundle(targets, modifiers, chain_bonus_damage, chain_bonus_block, chain_bonus_cards_to_draw, chain_bonus_exposed_to_apply)
+
+
+func _apply_effect_bundle(targets: Array[Node], modifiers: ModifierHandler, damage_amount: int, block_value: int, draw_value: int, exposed_value: int) -> void:
+	if damage_amount > 0:
 		var damage_effect := DamageEffect.new()
-		damage_effect.amount = modifiers.get_modified_value(damage, Modifier.Type.DMG_DEALT)
+		damage_effect.amount = modifiers.get_modified_value(damage_amount, Modifier.Type.DMG_DEALT)
 		damage_effect.sound = sound
 		damage_effect.execute(targets)
 
-	if block_amount > 0:
+	if block_value > 0:
 		var block_effect := BlockEffect.new()
-		block_effect.amount = block_amount
+		block_effect.amount = block_value
 		block_effect.sound = sound
 		block_effect.execute(targets)
 
-	if cards_to_draw > 0:
+	if draw_value > 0:
 		var draw_effect := CardDrawEffect.new()
-		draw_effect.cards_to_draw = cards_to_draw
+		draw_effect.cards_to_draw = draw_value
 		draw_effect.execute(targets)
 
-	if exposed_to_apply > 0:
+	if exposed_value > 0:
 		var status_effect := StatusEffect.new()
 		var exposed := DEFAULT_EXPOSED_STATUS.duplicate()
-		exposed.duration = exposed_to_apply
+		exposed.duration = exposed_value
 		status_effect.status = exposed
 		status_effect.execute(targets)
 

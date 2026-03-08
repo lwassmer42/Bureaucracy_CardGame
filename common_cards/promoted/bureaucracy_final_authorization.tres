@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="Card" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://art/promoted/card_icons/bureaucracy_final_authorization.png" id="1_icon"]
+[ext_resource type="Script" path="res://custom_resources/card.gd" id="2_script"]
+[ext_resource type="AudioStream" path="res://art/slash.ogg" id="3_sound"]
+
+[resource]
+script = ExtResource("2_script")
+id = "bureaucracy_final_authorization"
+type = 0
+rarity = 2
+target = 1
+cost = 2
+damage = 10
+chain_id = "approval"
+chain_step = 4
+chain_window_turns = 1
+chain_bonus_damage = 12
+exhausts = false
+icon = ExtResource("1_icon")
+tooltip_text = "[center][b]Final Authorization[/b]\\nDeal 10 damage. [Chain 4] Deal 12 more damage.[/center]"
+sound = ExtResource("3_sound")

@@ -140,6 +140,35 @@ New generated card batch:
 - `Falsified Report` (spend budget to apply Exposed)
 - `Hostile Takeover` (spend budget for a stronger all-enemies hit)
 
+
+## Second mechanic progress: Chain of Approval
+
+Implemented a first-pass `Chain of Approval` runtime.
+
+What landed on the chain branch:
+- `global/chain_tracker.gd`
+  - battle-local chain progress tracker
+  - supports same-turn or next-turn sequencing via a simple turn window
+- `custom_resources/card.gd`
+  - chain metadata fields (`chain_id`, `chain_step`, `chain_window_turns`)
+  - generic chain bonus fields for damage, block, draw, and Exposed
+- `project.godot`
+  - `ChainTracker` autoload
+- `scenes/battle/battle.gd`
+  - resets chain state at battle start
+
+Scope note:
+- no chain-specific HUD feedback yet
+- non-chain cards do not currently break the sequence
+- this is a low-friction prototype meant to validate whether the sequencing feels good in actual play
+
+New generated chain batch:
+- `Stapler Jab` (control card)
+- `Request Form` (Chain 1)
+- `Approval Memo` (Chain 2)
+- `Department Stamp` (Chain 3)
+- `Final Authorization` (Chain 4)
+
 ## Recommended next steps
 
 ### Phase 1. Live-playtest the new Budget prototype

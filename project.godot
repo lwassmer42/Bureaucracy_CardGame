@@ -27,6 +27,7 @@ Shaker="*res://global/shaker.gd"
 MusicPlayer="*res://global/music_player.tscn"
 SFXPlayer="*res://global/sfx_player.tscn"
 RNG="*res://global/rng.gd"
+ChainTracker="*res://global/chain_tracker.gd"
 
 [debug]
 
