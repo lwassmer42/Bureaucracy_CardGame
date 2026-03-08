@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Card" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://art/promoted/card_icons/bureaucracy_expense_account.png" id="1_icon"]
+[ext_resource type="Script" path="res://custom_resources/card.gd" id="2_script"]
+[ext_resource type="AudioStream" path="res://art/block.ogg" id="3_sound"]
+
+[resource]
+script = ExtResource("2_script")
+id = "bureaucracy_expense_account"
+type = 1
+rarity = 0
+target = 0
+cost = 1
+cards_to_draw = 1
+budget_gain = 1
+exhausts = false
+icon = ExtResource("1_icon")
+tooltip_text = "[center][b]Expense Account[/b]\\nGain 1 Budget. Draw 1.[/center]"
+sound = ExtResource("3_sound")

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Card" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://art/promoted/card_icons/bureaucracy_falsified_report.png" id="1_icon"]
+[ext_resource type="Script" path="res://custom_resources/card.gd" id="2_script"]
+[ext_resource type="AudioStream" path="res://art/block.ogg" id="3_sound"]
+
+[resource]
+script = ExtResource("2_script")
+id = "bureaucracy_falsified_report"
+type = 1
+rarity = 1
+target = 2
+cost = 1
+exposed_to_apply = 2
+budget_cost = 1
+exhausts = false
+icon = ExtResource("1_icon")
+tooltip_text = "[center][b]Falsified Report[/b]\\n[Budget 1] Apply 2 Exposed to ALL enemies.[/center]"
+sound = ExtResource("3_sound")

@@ -21,9 +21,11 @@ var parent: Control
 var tween: Tween
 var playable := true : set = _set_playable
 var disabled := true
+var run_stats: RunStats
 
 
 func _ready() -> void:
+	_bind_run_stats()
 	Events.card_aim_started.connect(_on_card_drag_or_aiming_started)
 	Events.card_drag_started.connect(_on_card_drag_or_aiming_started)
 	Events.card_drag_ended.connect(_on_card_drag_or_aim_ended)
@@ -44,8 +46,10 @@ func play() -> void:
 	if not card:
 		return
 	
-	card.play(targets, char_stats, player_modifiers)
-	queue_free()
+	if card.play(targets, char_stats, player_modifiers, run_stats):
+		queue_free()
+	else:
+		_refresh_playable()
 
 
 func get_active_enemy_modifiers() -> ModifierHandler:
@@ -84,6 +88,7 @@ func _set_card(value: Card) -> void:
 
 	card = value
 	card_visuals.card = card
+	_refresh_playable()
 
 
 func _set_playable(value: bool) -> void:
@@ -99,7 +104,21 @@ func _set_playable(value: bool) -> void:
 func _set_char_stats(value: CharacterStats) -> void:
 	char_stats = value
 	char_stats.stats_changed.connect(_on_char_stats_changed)
-	_on_char_stats_changed()
+	_refresh_playable()
+
+
+func _bind_run_stats() -> void:
+	var run_node := get_tree().get_first_node_in_group("run")
+	if run_node == null:
+		return
+	run_stats = run_node.get("stats") as RunStats
+	if run_stats and not run_stats.budget_changed.is_connected(_on_run_budget_changed):
+		run_stats.budget_changed.connect(_on_run_budget_changed)
+	_refresh_playable()
+
+
+func _refresh_playable() -> void:
+	playable = card != null and char_stats != null and card.can_play(char_stats, run_stats)
 
 
 func _on_drop_point_detector_area_entered(area: Area2D) -> void:
@@ -120,8 +139,12 @@ func _on_card_drag_or_aiming_started(used_card: CardUI) -> void:
 
 func _on_card_drag_or_aim_ended(_card: CardUI) -> void:
 	disabled = false
-	playable = char_stats.can_play_card(card)
+	_refresh_playable()
 
 
 func _on_char_stats_changed() -> void:
-	playable = char_stats.can_play_card(card)
+	_refresh_playable()
+
+
+func _on_run_budget_changed() -> void:
+	_refresh_playable()

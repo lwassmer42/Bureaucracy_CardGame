@@ -67,10 +67,11 @@ func _show_card_rewards() -> void:
 	var promoted_cards: Array[Card] = PromotedCards.load_all_duplicates()
 	available_cards.append_array(promoted_cards)
 
-	# Dev convenience: in debug builds, guarantee promoted cards show up quickly.
+	# Dev convenience: in debug builds, front-load up to five of the newest promoted cards.
 	if OS.has_feature("debug") and not promoted_cards.is_empty():
+		var promo_limit := mini(promoted_cards.size(), maxi(run_stats.card_rewards, 5))
 		for pc: Card in promoted_cards:
-			if card_reward_array.size() >= run_stats.card_rewards:
+			if card_reward_array.size() >= promo_limit:
 				break
 			card_reward_array.append(pc)
 			available_cards = available_cards.filter(func(c: Card) -> bool: return c.id != pc.id)
