@@ -6,5 +6,6 @@
 [node name="Tier2ToxicGhost" type="Node2D"]
 
 [node name="Enemy" parent="." instance=ExtResource("1_1rrjk")]
-position = Vector2(207, 76)
+position = Vector2(1035, 380)
+scale = Vector2(5, 5)
 stats = ExtResource("2_nawdm")
