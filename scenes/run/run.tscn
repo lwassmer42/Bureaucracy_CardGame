@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://scenes/run/pause_menu.gd" id="11_a4w7h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_68deg"]
+font_size = 24
 
 [node name="Run" type="Node" groups=["run"]]
 script = ExtResource("1_bedv1")
@@ -63,51 +64,63 @@ text = "Campfire"
 layer = 3
 
 [node name="Background" type="ColorRect" parent="TopBar"]
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(0, 84)
 anchors_preset = 10
 anchor_right = 1.0
+offset_bottom = 84.0
 grow_horizontal = 2
-color = Color(0, 0, 0, 0.501961)
+color = Color(0, 0, 0, 0.65)
 
 [node name="BarItems" type="HBoxContainer" parent="TopBar"]
-custom_minimum_size = Vector2(0, 18)
+custom_minimum_size = Vector2(0, 84)
 anchors_preset = 10
 anchor_right = 1.0
+offset_left = 24.0
+offset_top = 10.0
+offset_right = -24.0
+offset_bottom = 74.0
 grow_horizontal = 2
+theme_override_constants/separation = 20
+alignment = 1
 
 [node name="HealthUI" parent="TopBar/BarItems" instance=ExtResource("4_k05q4")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(35, 0)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+scale = Vector2(3, 3)
 show_max_hp = true
 
 [node name="GoldUI" parent="TopBar/BarItems" instance=ExtResource("4_dtarl")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(30, 0)
+custom_minimum_size = Vector2(135, 0)
 layout_mode = 2
+scale = Vector2(3, 3)
 
 [node name="RelicHandlerContainer" type="CenterContainer" parent="TopBar/BarItems"]
+custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="RelicHandler" parent="TopBar/BarItems/RelicHandlerContainer" instance=ExtResource("6_f8fbw")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
+scale = Vector2(2.5, 2.5)
 
 [node name="DeckButton" parent="TopBar/BarItems" node_paths=PackedStringArray("counter") instance=ExtResource("4_ayx7e")]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
 texture_normal = ExtResource("5_dw5bf")
 counter = NodePath("Counter")
 
 [node name="Counter" type="Label" parent="TopBar/BarItems/DeckButton"]
 layout_mode = 0
-offset_left = -5.0
-offset_top = 12.0
-offset_right = 5.0
-offset_bottom = 18.0
+offset_left = 0.0
+offset_top = 26.0
+offset_right = 56.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 18
 text = "99"
 horizontal_alignment = 1
 
@@ -139,13 +152,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -47.0
-offset_top = -20.0
-offset_right = 47.0
-offset_bottom = 20.0
+offset_left = -180.0
+offset_top = -90.0
+offset_right = 180.0
+offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 24
 
 [node name="Label" type="Label" parent="PauseMenu/VBoxContainer"]
 layout_mode = 2
@@ -156,16 +169,16 @@ vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PauseMenu/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 20
 
 [node name="BackToGameButton" type="Button" parent="PauseMenu/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(40, 14)
+custom_minimum_size = Vector2(140, 48)
 layout_mode = 2
 text = "Back"
 
 [node name="SaveAndQuitButton" type="Button" parent="PauseMenu/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(50, 0)
+custom_minimum_size = Vector2(180, 48)
 layout_mode = 2
 text = "Main Menu"

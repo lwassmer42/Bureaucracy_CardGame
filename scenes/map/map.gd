@@ -1,7 +1,7 @@
 class_name Map
 extends Node2D
 
-const SCROLL_SPEED := 15
+const SCROLL_SPEED := 90
 const MAP_ROOM = preload("res://scenes/map/map_room.tscn")
 const MAP_LINE = preload("res://scenes/map/map_line.tscn")
 
@@ -43,6 +43,7 @@ func load_map(map: Array[Array], floors_completed: int, last_room_climbed: Room)
 	floors_climbed = floors_completed
 	map_data = map
 	last_room = last_room_climbed
+	_upgrade_legacy_map_positions()
 	create_map()
 	
 	if floors_climbed > 0:
@@ -52,6 +53,12 @@ func load_map(map: Array[Array], floors_completed: int, last_room_climbed: Room)
 
 
 func create_map() -> void:
+	for child: Node in lines.get_children():
+		child.free()
+
+	for child: Node in rooms.get_children():
+		child.free()
+
 	for current_floor: Array in map_data:
 		for room: Room in current_floor:
 			if room.next_rooms.size() > 0:
@@ -60,10 +67,53 @@ func create_map() -> void:
 	# Boss room has no next room but we need to spawn it
 	var middle := floori(MapGenerator.MAP_WIDTH * 0.5)
 	_spawn_room(map_data[MapGenerator.FLOORS-1][middle])
+	_layout_visuals()
 
-	var map_width_pixels := MapGenerator.X_DIST * (MapGenerator.MAP_WIDTH - 1)
-	visuals.position.x = (get_viewport_rect().size.x - map_width_pixels) / 2
-	visuals.position.y = get_viewport_rect().size.y / 2
+
+func _upgrade_legacy_map_positions() -> void:
+	var max_x := 0.0
+
+	for current_floor: Array in map_data:
+		for room: Room in current_floor:
+			max_x = max(max_x, room.position.x)
+
+	if max_x >= 400.0:
+		return
+
+	var legacy_x_scale := MapGenerator.X_DIST / 30.0
+	var legacy_y_scale := MapGenerator.Y_DIST / 25.0
+
+	for current_floor: Array in map_data:
+		for room: Room in current_floor:
+			room.position.x *= legacy_x_scale
+			room.position.y *= legacy_y_scale
+
+
+func _layout_visuals() -> void:
+	var min_x := INF
+	var max_x := -INF
+	var min_y := INF
+	var max_y := -INF
+
+	for current_floor: Array in map_data:
+		for room: Room in current_floor:
+			if room.next_rooms.is_empty() and room.type != Room.Type.BOSS:
+				continue
+
+			min_x = min(min_x, room.position.x)
+			max_x = max(max_x, room.position.x)
+			min_y = min(min_y, room.position.y)
+			max_y = max(max_y, room.position.y)
+
+	var viewport_size := get_viewport_rect().size
+	var map_width := max_x - min_x
+	var bottom_padding := 110.0
+
+	visuals.position.x = ((viewport_size.x - map_width) * 0.5) - min_x
+	visuals.position.y = viewport_size.y - bottom_padding - max_y
+
+	camera_edge_y = abs(min_y) + bottom_padding
+	camera_2d.position.y = clampf(camera_2d.position.y, -camera_edge_y, 0.0)
 
 
 func unlock_floor(which_floor: int = floors_climbed) -> void:

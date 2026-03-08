@@ -24,7 +24,7 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(128, 72)
+offset = Vector2(640, 360)
 
 [node name="MapGenerator" type="Node" parent="."]
 script = ExtResource("2_0qmb6")

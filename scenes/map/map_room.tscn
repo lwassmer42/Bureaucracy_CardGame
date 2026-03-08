@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bfvi02kojsa00" path="res://art/tile_0103.png" id="1_hme85"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_auf4t"]
+radius = 8.0
 
 [sub_resource type="Animation" id="Animation_foqjf"]
 length = 0.001
@@ -86,6 +87,7 @@ _data = {
 }
 
 [node name="MapRoom" type="Area2D"]
+scale = Vector2(4, 4)
 collision_layer = 8
 collision_mask = 0
 script = ExtResource("1_1rfj3")
