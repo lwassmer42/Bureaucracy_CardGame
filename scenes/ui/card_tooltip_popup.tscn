@@ -26,13 +26,15 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -36.0
+offset_bottom = -36.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
 [node name="Content" type="HBoxContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 32
 alignment = 1
 
 [node name="TooltipCard" type="CenterContainer" parent="CenterContainer/Content"]
@@ -42,10 +44,12 @@ mouse_filter = 2
 
 [node name="CardDescription" type="RichTextLabel" parent="CenterContainer/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 0)
+custom_minimum_size = Vector2(460, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
 mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 26
 bbcode_enabled = true
 fit_content = true
 text = "Card Description"
