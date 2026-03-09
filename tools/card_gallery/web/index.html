@@ -19,6 +19,22 @@
         <button id="reloadBtn" class="btn btn-secondary">Reload</button>
       </div>
 
+      <div class="sidebar-filters">
+        <input id="cardFilterInput" type="text" placeholder="Filter by name or id" />
+        <select id="cardSortInput">
+          <option value="generated_desc">Newest Generated</option>
+          <option value="generated_asc">Oldest Generated</option>
+          <option value="promoted_desc">Newest Promoted</option>
+          <option value="promoted_asc">Oldest Promoted</option>
+          <option value="name_asc">Name A-Z</option>
+          <option value="name_desc">Name Z-A</option>
+          <option value="cost_asc">Cost Low-High</option>
+          <option value="cost_desc">Cost High-Low</option>
+          <option value="approved_first">Approved First</option>
+          <option value="promoted_first">Promoted First</option>
+        </select>
+      </div>
+
       <div class="card-list" id="cardList"></div>
     </aside>
 
@@ -116,7 +132,7 @@
               <textarea id="rulesInput" rows="5"></textarea>
             </label>
 
-                        <label>
+            <label>
               <span>Color Accent (optional)</span>
               <input id="accentInput" type="text" placeholder="e.g. deep red, mustard yellow" />
             </label>
@@ -148,5 +164,3 @@
   <script src="/web/app.js"></script>
 </body>
 </html>
-
-

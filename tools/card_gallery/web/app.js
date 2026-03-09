@@ -4,6 +4,8 @@ const state = {
   activeId: null,
   frameImg: null,
   artImgCache: new Map(),
+  cardFilter: '',
+  cardSort: 'generated_desc',
 };
 
 function el(id) { return document.getElementById(id); }
@@ -57,11 +59,92 @@ function getActiveCard() {
   return state.cardsDoc?.cards?.find(c => c.id === state.activeId) || null;
 }
 
+function parseCardDate(value) {
+  if (!value) return 0;
+  const normalized = String(value).replace(' ', 'T');
+  const parsed = Date.parse(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function getLatestGeneratedAt(card) {
+  const variants = card?.variants || [];
+  let latest = 0;
+  for (const variant of variants) {
+    latest = Math.max(latest, parseCardDate(variant.generated_at));
+  }
+  return latest;
+}
+
+function getPromotedAt(card) {
+  return parseCardDate(card?.promoted_at);
+}
+
+function compareStrings(a, b) {
+  return String(a || '').localeCompare(String(b || ''), undefined, { sensitivity: 'base' });
+}
+
+function sortTimestampAsc(a, b) {
+  const left = a || Number.MAX_SAFE_INTEGER;
+  const right = b || Number.MAX_SAFE_INTEGER;
+  return left - right;
+}
+
+function sortTimestampDesc(a, b) {
+  const left = a || -1;
+  const right = b || -1;
+  return right - left;
+}
+
+function getVisibleCards() {
+  const query = state.cardFilter.trim().toLowerCase();
+  const cards = [...(state.cardsDoc?.cards || [])].filter(card => {
+    if (!query) return true;
+    const haystack = `${card.name || ''} ${card.id || ''}`.toLowerCase();
+    return haystack.includes(query);
+  });
+
+  cards.sort((a, b) => {
+    switch (state.cardSort) {
+      case 'name_asc':
+        return compareStrings(a.name || a.id, b.name || b.id) || compareStrings(a.id, b.id);
+      case 'name_desc':
+        return compareStrings(b.name || b.id, a.name || a.id) || compareStrings(a.id, b.id);
+      case 'cost_asc':
+        return (a.cost ?? 0) - (b.cost ?? 0) || compareStrings(a.name || a.id, b.name || b.id);
+      case 'cost_desc':
+        return (b.cost ?? 0) - (a.cost ?? 0) || compareStrings(a.name || a.id, b.name || b.id);
+      case 'promoted_desc':
+        return sortTimestampDesc(getPromotedAt(a), getPromotedAt(b)) || compareStrings(a.name || a.id, b.name || b.id);
+      case 'promoted_asc':
+        return sortTimestampAsc(getPromotedAt(a), getPromotedAt(b)) || compareStrings(a.name || a.id, b.name || b.id);
+      case 'approved_first':
+        return Number(!!b.approved) - Number(!!a.approved) || sortTimestampDesc(getLatestGeneratedAt(a), getLatestGeneratedAt(b)) || compareStrings(a.name || a.id, b.name || b.id);
+      case 'promoted_first':
+        return Number(!!b.promoted) - Number(!!a.promoted) || sortTimestampDesc(getPromotedAt(a), getPromotedAt(b)) || compareStrings(a.name || a.id, b.name || b.id);
+      case 'generated_asc':
+        return sortTimestampAsc(getLatestGeneratedAt(a), getLatestGeneratedAt(b)) || compareStrings(a.name || a.id, b.name || b.id);
+      case 'generated_desc':
+      default:
+        return sortTimestampDesc(getLatestGeneratedAt(a), getLatestGeneratedAt(b)) || compareStrings(a.name || a.id, b.name || b.id);
+    }
+  });
+
+  return cards;
+}
+
 function renderCardList() {
   const list = el('cardList');
   list.innerHTML = '';
 
-  const cards = state.cardsDoc?.cards || [];
+  const cards = getVisibleCards();
+  if (!cards.length) {
+    const empty = document.createElement('div');
+    empty.className = 'card-list-empty';
+    empty.textContent = 'No cards match the current filter.';
+    list.appendChild(empty);
+    return;
+  }
+
   for (const card of cards) {
     const row = document.createElement('div');
     row.className = 'card-row' + (card.id === state.activeId ? ' active' : '');
@@ -69,7 +152,7 @@ function renderCardList() {
     const left = document.createElement('div');
     left.style.minWidth = '0';
     left.innerHTML = `<div style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${card.name || card.id}</div>
-                      <div class="muted" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${card.id}</div>`;
+                      <div class="muted" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${card.id} • cost ${card.cost ?? 0}</div>`;
 
     const badge = document.createElement('div');
     const promoted = !!card.promoted;
@@ -632,10 +715,21 @@ function init() {
   el('approveBtn').addEventListener('click', toggleApprove);
   el('promoteBtn').addEventListener('click', promoteCard);
   el('unpromoteBtn').addEventListener('click', unpromoteCard);
+  el('cardFilterInput').value = state.cardFilter;
+  el('cardSortInput').value = state.cardSort;
+  el('cardFilterInput').addEventListener('input', () => {
+    state.cardFilter = el('cardFilterInput').value;
+    renderCardList();
+  });
+  el('cardSortInput').addEventListener('change', () => {
+    state.cardSort = el('cardSortInput').value;
+    renderCardList();
+  });
 
   reloadAll().catch(e => setStatus(`Load failed: ${e.message}`));
 }
 
 init();
+
 
 
