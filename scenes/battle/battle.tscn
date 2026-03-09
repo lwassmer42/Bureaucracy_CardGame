@@ -101,8 +101,8 @@ player = NodePath("../../Player")
 layout_mode = 1
 
 [node name="Tooltip" parent="BattleUI" instance=ExtResource("12_qx741")]
-offset_top = 20.0
-offset_bottom = 56.0
+offset_top = 110.0
+offset_bottom = 246.0
 
 [node name="EndTurnButton" type="Button" parent="BattleUI"]
 unique_name_in_owner = true

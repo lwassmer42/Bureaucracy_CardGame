@@ -23,7 +23,8 @@ func show_tooltip(icon: Texture, text: String) -> void:
 		tween.kill()
 	
 	tooltip_icon.texture = icon
-	tooltip_text_label.text = text
+	tooltip_icon.visible = icon != null
+	tooltip_text_label.text = _format_tooltip_text(text)
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 	tween.tween_callback(show)
 	tween.tween_property(self, "modulate", Color.WHITE, fade_seconds)
@@ -42,3 +43,7 @@ func hide_animation() -> void:
 		tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 		tween.tween_property(self, "modulate", Color.TRANSPARENT, fade_seconds)
 		tween.tween_callback(hide)
+
+
+func _format_tooltip_text(text: String) -> String:
+	return "[font_size=26]" + text + "[/font_size]"
