@@ -79,7 +79,7 @@ func _refresh_backlog_button() -> void:
 	if char_stats != null and char_stats.backlog != null:
 		backlog_count = char_stats.backlog.cards.size()
 
-	backlog_button.text = "Backlog\n%s file%s\nDraw (3 mana)" % [
+	backlog_button.text = "Backlog\n%s file%s\nDraw\n3 mana" % [
 		backlog_count,
 		"" if backlog_count == 1 else "s",
 	]

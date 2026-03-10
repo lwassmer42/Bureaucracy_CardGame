@@ -106,13 +106,13 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 30.0
-offset_top = -285.0
-offset_right = 230.0
-offset_bottom = -195.0
+offset_top = -320.0
+offset_right = 120.0
+offset_bottom = -185.0
 grow_vertical = 0
 theme = ExtResource("13_523u4")
-theme_override_font_sizes/font_size = 18
-text = "Backlog\n0 files\nDraw (3 mana)"
+theme_override_font_sizes/font_size = 16
+text = "Backlog\n0 files\nDraw\n3 mana"
 
 [node name="Tooltip" parent="BattleUI" instance=ExtResource("12_qx741")]
 offset_top = 110.0
