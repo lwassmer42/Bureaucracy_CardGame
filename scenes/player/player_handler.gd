@@ -161,7 +161,7 @@ func add_misfiled_notice_to_backlog(amount: int = 1) -> bool:
 
 	var added := false
 	for _i in range(amount):
-		added = add_card_to_backlog(MISFILED_NOTICE.create_instance_copy()) or added
+		added = add_card_to_backlog(MISFILED_NOTICE.create_distinct_instance_copy()) or added
 	return added
 
 

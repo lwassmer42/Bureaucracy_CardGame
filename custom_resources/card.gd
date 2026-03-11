@@ -64,6 +64,12 @@ func ensure_instance_uid() -> Card:
 
 func create_instance_copy() -> Card:
 	var copy := duplicate() as Card
+	copy.ensure_instance_uid()
+	return copy
+
+
+func create_distinct_instance_copy() -> Card:
+	var copy := duplicate() as Card
 	copy.instance_uid = ""
 	copy.ensure_instance_uid()
 	return copy
