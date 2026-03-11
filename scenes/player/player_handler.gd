@@ -19,6 +19,7 @@ const MISFILED_NOTICE := preload("res://common_cards/debuffs/bureaucracy_misfile
 @export var hand: Hand
 
 var character: CharacterStats
+var is_player_turn := false
 
 
 func _ready() -> void:
@@ -27,6 +28,7 @@ func _ready() -> void:
 
 func start_battle(char_stats: CharacterStats) -> void:
 	character = char_stats
+	is_player_turn = false
 	character.ensure_runtime_piles()
 	character.draw_pile = character.deck.custom_duplicate()
 	character.draw_pile.shuffle()
@@ -37,12 +39,14 @@ func start_battle(char_stats: CharacterStats) -> void:
 
 
 func start_turn() -> void:
+	is_player_turn = true
 	character.block = 0
 	character.reset_mana()
 	relics.activate_relics_by_type(Relic.Type.START_OF_TURN)
 
 
 func end_turn() -> void:
+	is_player_turn = false
 	hand.disable_hand()
 	relics.activate_relics_by_type(Relic.Type.END_OF_TURN)
 
@@ -98,7 +102,8 @@ func reshuffle_deck_from_discard() -> void:
 
 func can_draw_from_backlog() -> bool:
 	return (
-		character != null
+		is_player_turn
+		and character != null
 		and character.backlog != null
 		and not character.backlog.empty()
 		and character.mana >= BACKLOG_DRAW_COST
@@ -126,7 +131,7 @@ func draw_cards_from_backlog(amount: int) -> int:
 		hand.add_card(card)
 		drawn += 1
 
-	if drawn > 0:
+	if drawn > 0 and is_player_turn:
 		hand.enable_hand()
 
 	return drawn
