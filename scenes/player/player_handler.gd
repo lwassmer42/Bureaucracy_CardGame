@@ -123,11 +123,16 @@ func draw_cards_from_backlog(amount: int) -> int:
 	if character == null or character.backlog == null or amount <= 0:
 		return 0
 
+	character.ensure_runtime_piles()
+
 	var drawn := 0
 	while drawn < amount and not character.backlog.empty():
 		var card := character.backlog.draw_card()
 		if card == null:
 			break
+		card.ensure_instance_uid()
+		if not character.deck.has_card_with_instance_uid(card.instance_uid):
+			character.deck.add_card(card)
 		hand.add_card(card)
 		drawn += 1
 
@@ -142,6 +147,10 @@ func add_card_to_backlog(card: Card) -> bool:
 		return false
 
 	character.ensure_runtime_piles()
+	card.ensure_instance_uid()
+	character.deck.remove_card_by_instance_uid(card.instance_uid)
+	if character.backlog.has_card_with_instance_uid(card.instance_uid):
+		return true
 	character.backlog.add_card(card)
 	return true
 
