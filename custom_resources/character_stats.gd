@@ -42,7 +42,7 @@ func can_play_card(card: Card) -> bool:
 
 func ensure_runtime_piles() -> void:
 	if deck == null:
-		deck = starting_deck.duplicate()
+		deck = starting_deck.custom_duplicate()
 	if draw_pile == null:
 		draw_pile = CardPile.new()
 	if discard == null:
@@ -50,14 +50,20 @@ func ensure_runtime_piles() -> void:
 	if backlog == null:
 		backlog = CardPile.new()
 
+	deck.ensure_instance_uids()
+	draw_pile.ensure_instance_uids()
+	discard.ensure_instance_uids()
+	backlog.ensure_instance_uids()
+
 
 func create_instance() -> Resource:
 	var instance: CharacterStats = self.duplicate()
 	instance.health = max_health
 	instance.block = 0
 	instance.reset_mana()
-	instance.deck = instance.starting_deck.duplicate()
+	instance.deck = instance.starting_deck.custom_duplicate()
 	instance.draw_pile = CardPile.new()
 	instance.discard = CardPile.new()
 	instance.backlog = CardPile.new()
+	instance.ensure_runtime_piles()
 	return instance
