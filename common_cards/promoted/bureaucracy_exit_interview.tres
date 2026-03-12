@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Card" load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://art/promoted/card_icons/bureaucracy_exit_interview.png" id="1_icon"]
+[ext_resource type="Script" path="res://custom_resources/card.gd" id="2_script"]
+[ext_resource type="AudioStream" path="res://art/block.ogg" id="3_sound"]
+
+[resource]
+script = ExtResource("2_script")
+id = "bureaucracy_exit_interview"
+type = 1
+rarity = 1
+target = 0
+cost = 1
+budget_gain = 2
+exhausts = true
+icon = ExtResource("1_icon")
+tooltip_text = "[center][b]Exit Interview[/b]\nGain 2 Budget. Exhaust.[/center]"
+sound = ExtResource("3_sound")

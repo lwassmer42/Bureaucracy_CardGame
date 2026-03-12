@@ -30,6 +30,37 @@ func clear() -> void:
 	card_pile_size_changed.emit(cards.size())
 
 
+func ensure_instance_uids() -> void:
+	for card: Card in cards:
+		if card != null:
+			card.ensure_instance_uid()
+
+
+func has_card_with_instance_uid(instance_uid: String) -> bool:
+	if instance_uid.is_empty():
+		return false
+
+	for card: Card in cards:
+		if card != null and card.instance_uid == instance_uid:
+			return true
+
+	return false
+
+
+func remove_card_by_instance_uid(instance_uid: String) -> Card:
+	if instance_uid.is_empty():
+		return null
+
+	for i in range(cards.size()):
+		var card := cards[i]
+		if card != null and card.instance_uid == instance_uid:
+			cards.remove_at(i)
+			card_pile_size_changed.emit(cards.size())
+			return card
+
+	return null
+
+
 # We need this method because of a Godot issue
 # reported here: 
 # https://github.com/godotengine/godot/issues/74918

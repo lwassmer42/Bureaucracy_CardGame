@@ -68,6 +68,13 @@ func create_instance_copy() -> Card:
 	return copy
 
 
+func create_distinct_instance_copy() -> Card:
+	var copy := duplicate() as Card
+	copy.instance_uid = ""
+	copy.ensure_instance_uid()
+	return copy
+
+
 func can_play(char_stats: CharacterStats, run_stats: RunStats = null) -> bool:
 	if char_stats == null or char_stats.mana < cost:
 		return false

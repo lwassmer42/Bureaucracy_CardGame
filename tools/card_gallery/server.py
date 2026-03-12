@@ -63,6 +63,29 @@ def _backup_cards() -> None:
         backup_path.write_text(CARDS_PATH.read_text(encoding="utf-8"), encoding="utf-8")
 
 
+def _infer_budget_gain_from_rules(rules_text: str) -> int | None:
+    match = re.search(r"(?:^|\W)Gain\s+(\d+)\s+Budget(?:\W|$)", rules_text, flags=re.IGNORECASE)
+    if match is None:
+        return None
+    return int(match.group(1))
+
+
+def _infer_exhausts_from_rules(rules_text: str) -> bool:
+    return bool(re.search(r"(?:^|\W)Exhaust(?:\W|$)", rules_text, flags=re.IGNORECASE))
+
+
+def _normalize_promoted_card_fields(card: dict[str, Any]) -> None:
+    rules = str(card.get("rules_text") or "")
+
+    if card.get("budget_gain") is None:
+        inferred_budget_gain = _infer_budget_gain_from_rules(rules)
+        if inferred_budget_gain is not None:
+            card["budget_gain"] = inferred_budget_gain
+
+    if card.get("exhausts") is None and _infer_exhausts_from_rules(rules):
+        card["exhausts"] = True
+
+
 def _safe_path_from_url(url_path: str) -> Path | None:
     """Map a URL like /art/foo.png to a repo file path.
 
@@ -668,9 +691,11 @@ class Handler(BaseHTTPRequestHandler):
             }
             sound_path = sound_by_type.get(type_str, "res://art/block.ogg")
 
+            _normalize_promoted_card_fields(card)
+
             name = str(card.get("name") or card_id)
             rules = str(card.get("rules_text") or "")
-            tooltip = f"[center][b]{name}[/b]\\n{rules}[/center]"
+            tooltip = f"[center][b]{name}[/b]\n{rules}[/center]"
 
             gameplay_ints = {
                 "damage": as_int(card.get("damage"), 0),
