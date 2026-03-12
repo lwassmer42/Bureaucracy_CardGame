@@ -136,12 +136,51 @@ def inject_into_workflow(
         raise ComfyUiError("SaveImage.inputs is not a dict.")
     save_inputs["filename_prefix"] = filename_prefix
 
-    # Seed: find any node with inputs.seed
-    seed_nodes = _find_nodes_with_inputs(prompt, has_keys={"seed"})
-    if not seed_nodes:
-        raise ComfyUiError("Workflow missing a node with inputs.seed (e.g., KSampler).")
-    _seed_id, seed_node = seed_nodes[0]
-    seed_node["inputs"]["seed"] = int(seed)
+    # Seed injection:
+    # 1) Prefer KSamplerAdvanced.noise_seed for the main sampler.
+    # 2) Fallback to KSampler.seed.
+    # 3) Fallback to the first node with a seed-like field for legacy/simple graphs.
+    # Also set FaceDetailer.seed so detailing varies per generated variant.
+    injected_main_sampler_seed = False
+    seed_value = int(seed)
+
+    for _node_id, node in _find_nodes(prompt, "KSamplerAdvanced"):
+        inputs = node.get("inputs")
+        if isinstance(inputs, dict) and "noise_seed" in inputs:
+            inputs["noise_seed"] = seed_value
+            injected_main_sampler_seed = True
+            break
+
+    if not injected_main_sampler_seed:
+        for _node_id, node in _find_nodes(prompt, "KSampler"):
+            inputs = node.get("inputs")
+            if isinstance(inputs, dict) and "seed" in inputs:
+                inputs["seed"] = seed_value
+                injected_main_sampler_seed = True
+                break
+
+    if not injected_main_sampler_seed:
+        seed_nodes = _find_nodes_with_inputs(prompt, has_keys={"seed"})
+        if seed_nodes:
+            _seed_id, seed_node = seed_nodes[0]
+            seed_node["inputs"]["seed"] = seed_value
+            injected_main_sampler_seed = True
+        else:
+            noise_seed_nodes = _find_nodes_with_inputs(prompt, has_keys={"noise_seed"})
+            if noise_seed_nodes:
+                _seed_id, seed_node = noise_seed_nodes[0]
+                seed_node["inputs"]["noise_seed"] = seed_value
+                injected_main_sampler_seed = True
+
+    if not injected_main_sampler_seed:
+        raise ComfyUiError(
+            "Workflow missing a seed field. Expected KSamplerAdvanced.noise_seed, KSampler.seed, or another seed-like input."
+        )
+
+    for _node_id, node in _find_nodes(prompt, "FaceDetailer"):
+        inputs = node.get("inputs")
+        if isinstance(inputs, dict) and "seed" in inputs:
+            inputs["seed"] = seed_value
 
     # Width/height: find any node with both.
     size_nodes = _find_nodes_with_inputs(prompt, has_keys={"width", "height"})
