@@ -50,6 +50,7 @@ const RARITY_COLORS := {
 @export var instance_uid := ""
 @export_range(0, 3) var upgrade_tier := 0
 @export var reviewed_stacks := 0
+@export var base_cost := -1
 
 
 func is_single_targeted() -> bool:
@@ -57,6 +58,8 @@ func is_single_targeted() -> bool:
 
 
 func ensure_instance_uid() -> Card:
+	if base_cost < 0:
+		base_cost = cost
 	if instance_uid.is_empty():
 		instance_uid = "%s_%s_%s" % [id, Time.get_unix_time_from_system(), Time.get_ticks_usec()]
 	return self
@@ -74,6 +77,14 @@ func create_distinct_instance_copy() -> Card:
 	copy.ensure_instance_uid()
 	return copy
 
+
+func reset_for_persistent_storage() -> Card:
+	ensure_instance_uid()
+	if base_cost >= 0:
+		cost = base_cost
+	else:
+		base_cost = cost
+	return self
 
 func can_play(char_stats: CharacterStats, run_stats: RunStats = null) -> bool:
 	if char_stats == null or char_stats.mana < cost:
@@ -186,3 +197,4 @@ func get_default_tooltip() -> String:
 
 func get_updated_tooltip(_player_modifiers: ModifierHandler, _enemy_modifiers: ModifierHandler) -> String:
 	return tooltip_text
+

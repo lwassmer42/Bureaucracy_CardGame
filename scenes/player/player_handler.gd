@@ -127,20 +127,19 @@ func draw_cards_from_backlog(amount: int) -> int:
 
 	var drawn := 0
 	while drawn < amount and not character.backlog.empty():
-		var card := character.backlog.draw_card()
-		if card == null:
+		var stored_card := character.backlog.draw_card()
+		if stored_card == null:
 			break
-		card.ensure_instance_uid()
-		if not character.deck.has_card_with_instance_uid(card.instance_uid):
-			character.deck.add_card(card)
-		hand.add_card(card)
+		stored_card.reset_for_persistent_storage()
+		if not character.deck.has_card_with_instance_uid(stored_card.instance_uid):
+			character.deck.add_card(stored_card)
+		hand.add_card(stored_card.create_instance_copy())
 		drawn += 1
 
 	if drawn > 0 and is_player_turn:
 		hand.enable_hand()
 
 	return drawn
-
 
 func add_card_to_backlog(card: Card) -> bool:
 	if character == null or card == null:
@@ -151,9 +150,11 @@ func add_card_to_backlog(card: Card) -> bool:
 	character.deck.remove_card_by_instance_uid(card.instance_uid)
 	if character.backlog.has_card_with_instance_uid(card.instance_uid):
 		return true
-	character.backlog.add_card(card)
-	return true
 
+	var stored_card := card.create_instance_copy()
+	stored_card.reset_for_persistent_storage()
+	character.backlog.add_card(stored_card)
+	return true
 
 func add_misfiled_notice_to_backlog(amount: int = 1) -> bool:
 	if amount <= 0:
@@ -190,3 +191,4 @@ func _on_relics_activated(type: Relic.Type) -> void:
 			player.status_handler.apply_statuses_by_type(Status.Type.START_OF_TURN)
 		Relic.Type.END_OF_TURN:
 			player.status_handler.apply_statuses_by_type(Status.Type.END_OF_TURN)
+
