@@ -7,6 +7,7 @@ enum Target {SELF, SINGLE_ENEMY, ALL_ENEMIES, EVERYONE}
 enum Keyword {ARCHIVE, FILE, CHAIN, CURSE, BUDGET_MODE}
 
 const DEFAULT_EXPOSED_STATUS := preload("res://statuses/exposed.tres")
+const STAMP_MULTIPLIER := 1.3
 const RARITY_COLORS := {
 	Card.Rarity.COMMON: Color.GRAY,
 	Card.Rarity.UNCOMMON: Color.CORNFLOWER_BLUE,
@@ -51,6 +52,8 @@ const RARITY_COLORS := {
 @export_range(0, 3) var upgrade_tier := 0
 @export var reviewed_stacks := 0
 @export var base_cost := -1
+@export var stamped := false
+@export var stamp_multiplier := 1.0
 
 
 func is_single_targeted() -> bool:
@@ -85,6 +88,42 @@ func reset_for_persistent_storage() -> Card:
 	else:
 		base_cost = cost
 	return self
+
+
+func apply_supervisor_stamp(multiplier: float = STAMP_MULTIPLIER) -> bool:
+	if stamped:
+		return false
+
+	var effective_multiplier := maxf(multiplier, 1.0)
+	var boosted_anything := false
+	for property_name in [
+		"damage",
+		"block_amount",
+		"cards_to_draw",
+		"exposed_to_apply",
+		"budget_gain",
+		"draw_from_backlog",
+		"chain_bonus_damage",
+		"chain_bonus_block",
+		"chain_bonus_cards_to_draw",
+		"chain_bonus_exposed_to_apply",
+	]:
+		var current_value: int = int(get(property_name))
+		if current_value <= 0:
+			continue
+		var stamped_value := maxi(current_value + 1, ceili(float(current_value) * effective_multiplier))
+		set(property_name, stamped_value)
+		boosted_anything = true
+
+	if not boosted_anything:
+		return false
+
+	stamped = true
+	stamp_multiplier = effective_multiplier
+	if tooltip_text.find("[Stamped") == -1:
+		tooltip_text += "\n[Stamped +30%]"
+	return true
+
 
 func can_play(char_stats: CharacterStats, run_stats: RunStats = null) -> bool:
 	if char_stats == null or char_stats.mana < cost:
@@ -197,4 +236,3 @@ func get_default_tooltip() -> String:
 
 func get_updated_tooltip(_player_modifiers: ModifierHandler, _enemy_modifiers: ModifierHandler) -> String:
 	return tooltip_text
-

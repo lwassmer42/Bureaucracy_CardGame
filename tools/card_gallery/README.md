@@ -88,8 +88,10 @@ If `design/cards_bureaucracy.json` defines:
 - `color_accent_suffix_default`
 
 …then the generator will build prompts like:
-- **Positive** = `house_style_positive_default` + optional `"<color_accent> accent color <suffix>"` + `card.art_prompt`
+- **Positive** = `house_style_positive_default` + optional `"<color_accent>, <color_accent_suffix_default>"` + `card.art_prompt`
 - **Negative** = `house_style_negative_default` + `card.negative_prompt` (or `negative_prompt_default`)
+
+If `contains_people = false`, the generator also adds `object only, isolated on plain background` to the positive prompt.
 
 Per-card optional fields:
 - `color_accent` (string)

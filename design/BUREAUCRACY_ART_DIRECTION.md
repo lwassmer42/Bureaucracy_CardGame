@@ -52,10 +52,10 @@ Example structure:
 Use this as the fixed “house style” prefix. Keep *specific subjects/locations/actions* in the per-card `Subject / Scene` prompt.
 
 **Positive base**
-- `1970s comic book illustration, retro pulp print look, bold black ink outlines, clean confident linework, flat cel shading, subtle halftone / newsprint texture, limited warm palette (cream, tan, muted earth tones) with slightly richer midtones, clear value contrast and hard-edged shadows, simple graphic composition, no readable text`
+- `Ink art of [subject with attitude], [action/pose energy], [max 2 environment props], [lighting mood], [1 or 2 optional accent colors to focus on], graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art`
 
 **Negative base**
-- `photorealistic, 3d render, soft gradients, painterly, watercolor, neon colors, modern digital art, anime, manga, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, readable text, watermark, logo`
+- `photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified`
 
 
 ## People Ratio (60/40)

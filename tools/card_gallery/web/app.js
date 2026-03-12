@@ -681,18 +681,24 @@ function newCard() {
   selectCard(id);
 }
 
-function deleteCard() {
+async function deleteCard() {
   const card = getActiveCard();
   if (!card) return;
   const ok = confirm(`Delete ${card.id}? This does not delete generated images.`);
   if (!ok) return;
 
-  state.cardsDoc.cards = state.cardsDoc.cards.filter(c => c.id !== card.id);
-  state.activeId = state.cardsDoc.cards[0]?.id || null;
-  renderCardList();
-  bindEditor(getActiveCard());
-  renderVariants();
-  renderPreview().catch(e => setStatus("Render failed: " + e.message));
+  try {
+    const updatedDoc = await apiPost('/api/delete_card', { card_id: card.id });
+    state.cardsDoc = updatedDoc;
+    state.activeId = state.cardsDoc.cards[0]?.id || null;
+    renderCardList();
+    bindEditor(getActiveCard());
+    renderVariants();
+    await renderPreview();
+    setStatus('Deleted card.');
+  } catch (e) {
+    setStatus(`Delete failed: ${e.message}`);
+  }
 }
 
 function toggleApprove() {

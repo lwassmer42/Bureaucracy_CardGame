@@ -4,6 +4,7 @@ extends Node
 const BATTLE_SCENE := preload("res://scenes/battle/battle.tscn")
 const BATTLE_REWARD_SCENE := preload("res://scenes/battle_reward/battle_reward.tscn")
 const CAMPFIRE_SCENE := preload("res://scenes/campfire/campfire.tscn")
+const APPROVAL_SCENE := preload("res://scenes/approval_room/approval_room.tscn")
 const SHOP_SCENE := preload("res://scenes/shop/shop.tscn")
 const TREASURE_SCENE = preload("res://scenes/treasure/treasure.tscn")
 const WIN_SCREEN_SCENE := preload("res://scenes/win_screen/win_screen.tscn")
@@ -204,6 +205,13 @@ func _on_event_room_entered(room: Room) -> void:
 	event_room.setup()
 
 
+func _on_approval_room_entered() -> void:
+	var approval_room := _change_view(APPROVAL_SCENE) as EventRoom
+	approval_room.character_stats = character
+	approval_room.run_stats = stats
+	approval_room.setup()
+
+
 func _on_battle_won() -> void:
 	if map.floors_climbed == MapGenerator.FLOORS:
 		var win_screen := _change_view(WIN_SCREEN_SCENE) as WinScreen
@@ -229,3 +237,5 @@ func _on_map_exited(room: Room) -> void:
 			_on_battle_room_entered(room)
 		Room.Type.EVENT:
 			_on_event_room_entered(room)
+		Room.Type.APPROVAL:
+			_on_approval_room_entered()

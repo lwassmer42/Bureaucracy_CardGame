@@ -34,6 +34,17 @@
         {
           "seed": 581667672,
           "file": "art/generated/card_art/bureaucracy_audit/bureaucracy_audit_ComfyUI_00043_20260305-221926_8128bc.png"
+        },
+        {
+          "seed": 916090357,
+          "file": "art/generated/card_art/bureaucracy_audit/bureaucracy_audit_seed916090357.png",
+          "source": "comfyui",
+          "prompt_id": "5e3147bb-2741-4806-bc45-51ecdfd41f78",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, A stern-looking stamp and a checklist clipboard over layered paperwork, sepia ink illustration, paper grain, official vibe, no text., object only, isolated on plain background",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts, people, person, human, face, faces, crowd, full body, portrait",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:03:42"
         }
       ],
       "selected_seed": 581667672,
@@ -43,7 +54,8 @@
       "godot_card_path": "common_cards/promoted/bureaucracy_audit.tres",
       "godot_icon_path": "art/promoted/card_icons/bureaucracy_audit.png",
       "promoted_seed": 581667672,
-      "promoted_at": "2026-03-06 00:02:40"
+      "promoted_at": "2026-03-06 00:02:40",
+      "contains_people": false
     },
     {
       "id": "bureaucracy_rubber_stamp",
@@ -4008,11 +4020,7 @@
       "selected_seed": 271518487,
       "approved": false,
       "notes": "Budget/exhaust overnight batch.",
-      "promoted": true,
-      "godot_card_path": "common_cards/promoted/bureaucracy_contingency_drawer.tres",
-      "godot_icon_path": "art/promoted/card_icons/bureaucracy_contingency_drawer.png",
-      "promoted_seed": 271518487,
-      "promoted_at": "2026-03-11 17:09:20"
+      "promoted": false
     },
     {
       "id": "bureaucracy_exit_interview",
@@ -4078,11 +4086,7 @@
       "selected_seed": 746095753,
       "approved": false,
       "notes": "Budget/exhaust overnight batch.",
-      "promoted": true,
-      "godot_card_path": "common_cards/promoted/bureaucracy_exit_interview.tres",
-      "godot_icon_path": "art/promoted/card_icons/bureaucracy_exit_interview.png",
-      "promoted_seed": 746095753,
-      "promoted_at": "2026-03-11 17:15:47"
+      "promoted": false
     },
     {
       "id": "bureaucracy_emergency_voucher",
@@ -4149,11 +4153,7 @@
       "selected_seed": 1322237156,
       "approved": false,
       "notes": "Budget/exhaust overnight batch.",
-      "promoted": true,
-      "godot_card_path": "common_cards/promoted/bureaucracy_emergency_voucher.tres",
-      "godot_icon_path": "art/promoted/card_icons/bureaucracy_emergency_voucher.png",
-      "promoted_seed": 1322237156,
-      "promoted_at": "2026-03-11 17:21:53"
+      "promoted": false
     },
     {
       "id": "bureaucracy_liquidation_order",
@@ -4220,16 +4220,355 @@
       "selected_seed": 1040055430,
       "approved": false,
       "notes": "Budget/exhaust overnight batch.",
+      "promoted": false
+    },
+    {
+      "id": "bureaucracy_supervisors_glare",
+      "name": "Supervisor's Glare",
+      "type": "ATTACK",
+      "rarity": "COMMON",
+      "cost": 1,
+      "target": "SINGLE_ENEMY",
+      "rules_text": "Deal 8 damage.",
+      "damage": 8,
+      "art_prompt": "stern supervisor with an icy stare, leaning forward with one finger pointed, one clipboard, harsh fluorescent lighting",
+      "color_accent": "crimson",
+      "contains_people": true,
+      "negative_prompt": null,
+      "variants": [
+        {
+          "seed": 550484431,
+          "file": "art/generated/card_art/bureaucracy_supervisors_glare/bureaucracy_supervisors_glare_seed550484431.png",
+          "source": "comfyui",
+          "prompt_id": "20596046-2060-4750-a117-b6ccb4cc9b59",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, stern supervisor with an icy stare, leaning forward with one finger pointed, one clipboard, harsh fluorescent lighting, crimson, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 01:21:26"
+        },
+        {
+          "seed": 801657612,
+          "file": "art/generated/card_art/bureaucracy_supervisors_glare/bureaucracy_supervisors_glare_seed801657612.png",
+          "source": "comfyui",
+          "prompt_id": "8dd0e9a9-6441-413a-b147-d23b4ead5261",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, stern supervisor with an icy stare, leaning forward with one finger pointed, one clipboard, harsh fluorescent lighting, crimson, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 01:29:18"
+        },
+        {
+          "seed": 408143152,
+          "file": "art/generated/card_art/bureaucracy_supervisors_glare/bureaucracy_supervisors_glare_seed408143152.png",
+          "source": "comfyui",
+          "prompt_id": "603d27fe-aaa6-49a5-b779-cfd1ce4b0d07",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, stern supervisor with an icy stare, leaning forward with one finger pointed, one clipboard, harsh fluorescent lighting, crimson, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 01:36:38"
+        },
+        {
+          "seed": 1419154016,
+          "file": "art/generated/card_art/bureaucracy_supervisors_glare/bureaucracy_supervisors_glare_seed1419154016.png",
+          "source": "comfyui",
+          "prompt_id": "24dd5d9e-1a06-421c-8aa6-3663a20badda",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, stern supervisor with an icy stare, leaning forward with one finger pointed, one clipboard, harsh fluorescent lighting, crimson, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 01:44:27"
+        }
+      ],
+      "selected_seed": 550484431,
+      "approved": false,
+      "notes": "Approval-stamp test batch.",
       "promoted": true,
-      "godot_card_path": "common_cards/promoted/bureaucracy_liquidation_order.tres",
-      "godot_icon_path": "art/promoted/card_icons/bureaucracy_liquidation_order.png",
-      "promoted_seed": 1040055430,
-      "promoted_at": "2026-03-11 17:27:57"
+      "godot_card_path": "common_cards/promoted/bureaucracy_supervisors_glare.tres",
+      "godot_icon_path": "art/promoted/card_icons/bureaucracy_supervisors_glare.png",
+      "promoted_seed": 550484431,
+      "promoted_at": "2026-03-12 01:44:27"
+    },
+    {
+      "id": "bureaucracy_rubber_seal",
+      "name": "Rubber Seal",
+      "type": "SKILL",
+      "rarity": "UNCOMMON",
+      "cost": 1,
+      "target": "SELF",
+      "rules_text": "Gain 8 Block.",
+      "block_amount": 8,
+      "art_prompt": "grim clerk gripping a heavy seal like a verdict, one paper slip, dramatic spotlight",
+      "color_accent": "red and brass",
+      "contains_people": true,
+      "negative_prompt": null,
+      "variants": [
+        {
+          "seed": 1579453472,
+          "file": "art/generated/card_art/bureaucracy_rubber_seal/bureaucracy_rubber_seal_seed1579453472.png",
+          "source": "comfyui",
+          "prompt_id": "b1ed9b11-e73e-4dcb-ae6e-2d0030986c7b",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, grim clerk gripping a heavy seal like a verdict, one paper slip, dramatic spotlight, red and brass, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:05:15"
+        },
+        {
+          "seed": 742808987,
+          "file": "art/generated/card_art/bureaucracy_rubber_seal/bureaucracy_rubber_seal_seed742808987.png",
+          "source": "comfyui",
+          "prompt_id": "13dd287e-5ff3-41e2-82d1-dfa9bd865a28",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, grim clerk gripping a heavy seal like a verdict, one paper slip, dramatic spotlight, red and brass, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:06:11"
+        },
+        {
+          "seed": 1004514408,
+          "file": "art/generated/card_art/bureaucracy_rubber_seal/bureaucracy_rubber_seal_seed1004514408.png",
+          "source": "comfyui",
+          "prompt_id": "83eced8d-8579-40af-93c4-7fa728a47b15",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, grim clerk gripping a heavy seal like a verdict, one paper slip, dramatic spotlight, red and brass, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:07:06"
+        },
+        {
+          "seed": 1182987150,
+          "file": "art/generated/card_art/bureaucracy_rubber_seal/bureaucracy_rubber_seal_seed1182987150.png",
+          "source": "comfyui",
+          "prompt_id": "02cd1e01-6872-4075-acdc-10a28fb3763c",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, grim clerk gripping a heavy seal like a verdict, one paper slip, dramatic spotlight, red and brass, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:08:00"
+        }
+      ],
+      "selected_seed": 1579453472,
+      "approved": false,
+      "notes": "Approval-stamp test batch.",
+      "promoted": true,
+      "godot_card_path": "common_cards/promoted/bureaucracy_rubber_seal.tres",
+      "godot_icon_path": "art/promoted/card_icons/bureaucracy_rubber_seal.png",
+      "promoted_seed": 1579453472,
+      "promoted_at": "2026-03-12 02:08:01"
+    },
+    {
+      "id": "bureaucracy_executive_override",
+      "name": "Executive Override",
+      "type": "ATTACK",
+      "rarity": "UNCOMMON",
+      "cost": 2,
+      "target": "ALL_ENEMIES",
+      "rules_text": "Deal 5 damage to ALL enemies. Apply 1 Exposed.",
+      "damage": 5,
+      "exposed_to_apply": 1,
+      "art_prompt": "imposing executive swinging an arm downward in command, one desk lamp and one folder, hard-edged shadows",
+      "color_accent": "gold",
+      "contains_people": true,
+      "negative_prompt": null,
+      "variants": [
+        {
+          "seed": 629322661,
+          "file": "art/generated/card_art/bureaucracy_executive_override/bureaucracy_executive_override_seed629322661.png",
+          "source": "comfyui",
+          "prompt_id": "01537856-e0eb-4269-9a94-0cbe62256236",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, imposing executive swinging an arm downward in command, one desk lamp and one folder, hard-edged shadows, gold, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:09:07"
+        },
+        {
+          "seed": 1402537155,
+          "file": "art/generated/card_art/bureaucracy_executive_override/bureaucracy_executive_override_seed1402537155.png",
+          "source": "comfyui",
+          "prompt_id": "6e2080d0-a977-4de8-86ec-a8a36eacaff6",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, imposing executive swinging an arm downward in command, one desk lamp and one folder, hard-edged shadows, gold, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:10:07"
+        },
+        {
+          "seed": 699450243,
+          "file": "art/generated/card_art/bureaucracy_executive_override/bureaucracy_executive_override_seed699450243.png",
+          "source": "comfyui",
+          "prompt_id": "17a2a52d-be49-4a1c-a361-c05a28d8de05",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, imposing executive swinging an arm downward in command, one desk lamp and one folder, hard-edged shadows, gold, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:11:05"
+        },
+        {
+          "seed": 1329508297,
+          "file": "art/generated/card_art/bureaucracy_executive_override/bureaucracy_executive_override_seed1329508297.png",
+          "source": "comfyui",
+          "prompt_id": "bb4fe293-043c-4185-8228-84f4d49ea016",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, imposing executive swinging an arm downward in command, one desk lamp and one folder, hard-edged shadows, gold, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:12:02"
+        }
+      ],
+      "selected_seed": 629322661,
+      "approved": false,
+      "notes": "Approval-stamp test batch.",
+      "promoted": true,
+      "godot_card_path": "common_cards/promoted/bureaucracy_executive_override.tres",
+      "godot_icon_path": "art/promoted/card_icons/bureaucracy_executive_override.png",
+      "promoted_seed": 629322661,
+      "promoted_at": "2026-03-12 02:12:02"
+    },
+    {
+      "id": "bureaucracy_policy_exception",
+      "name": "Policy Exception",
+      "type": "SKILL",
+      "rarity": "COMMON",
+      "cost": 1,
+      "target": "SELF",
+      "rules_text": "Draw 2. Gain 3 Block.",
+      "cards_to_draw": 2,
+      "block_amount": 3,
+      "art_prompt": "wary office worker opening a sealed exception folder with one hand, one paper slip, cool desk-lamp glow",
+      "color_accent": "red",
+      "contains_people": true,
+      "negative_prompt": null,
+      "variants": [
+        {
+          "seed": 1364712852,
+          "file": "art/generated/card_art/bureaucracy_policy_exception/bureaucracy_policy_exception_seed1364712852.png",
+          "source": "comfyui",
+          "prompt_id": "3d539926-c4f7-4d34-ba50-e8b1edd948b2",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, wary office worker opening a sealed exception folder with one hand, one paper slip, cool desk-lamp glow, red, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:13:10"
+        },
+        {
+          "seed": 242328577,
+          "file": "art/generated/card_art/bureaucracy_policy_exception/bureaucracy_policy_exception_seed242328577.png",
+          "source": "comfyui",
+          "prompt_id": "b7344702-5ea2-4307-9635-21570069f59b",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, wary office worker opening a sealed exception folder with one hand, one paper slip, cool desk-lamp glow, red, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:14:14"
+        },
+        {
+          "seed": 465632130,
+          "file": "art/generated/card_art/bureaucracy_policy_exception/bureaucracy_policy_exception_seed465632130.png",
+          "source": "comfyui",
+          "prompt_id": "67ac3389-baf4-49c0-a79e-c3ce1fb972ed",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, wary office worker opening a sealed exception folder with one hand, one paper slip, cool desk-lamp glow, red, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:15:12"
+        },
+        {
+          "seed": 237036973,
+          "file": "art/generated/card_art/bureaucracy_policy_exception/bureaucracy_policy_exception_seed237036973.png",
+          "source": "comfyui",
+          "prompt_id": "9fbf859d-ba63-472c-b49b-3c43212c1de9",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, wary office worker opening a sealed exception folder with one hand, one paper slip, cool desk-lamp glow, red, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:16:08"
+        }
+      ],
+      "selected_seed": 1364712852,
+      "approved": false,
+      "notes": "Approval-stamp test batch.",
+      "promoted": true,
+      "godot_card_path": "common_cards/promoted/bureaucracy_policy_exception.tres",
+      "godot_icon_path": "art/promoted/card_icons/bureaucracy_policy_exception.png",
+      "promoted_seed": 1364712852,
+      "promoted_at": "2026-03-12 02:16:09"
+    },
+    {
+      "id": "bureaucracy_compliance_crackdown",
+      "name": "Compliance Crackdown",
+      "type": "ATTACK",
+      "rarity": "RARE",
+      "cost": 2,
+      "target": "SINGLE_ENEMY",
+      "rules_text": "Deal 12 damage. Exhaust.",
+      "damage": 12,
+      "exhausts": true,
+      "art_prompt": "grim inspector lunging in with absolute certainty, one dossier, stark overhead light",
+      "color_accent": "amber",
+      "contains_people": true,
+      "negative_prompt": null,
+      "variants": [
+        {
+          "seed": 1246841650,
+          "file": "art/generated/card_art/bureaucracy_compliance_crackdown/bureaucracy_compliance_crackdown_seed1246841650.png",
+          "source": "comfyui",
+          "prompt_id": "bddbc83c-39ba-455d-a8b3-22b8fa79bcb7",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, grim inspector lunging in with absolute certainty, one dossier, stark overhead light, amber, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:17:11"
+        },
+        {
+          "seed": 986661465,
+          "file": "art/generated/card_art/bureaucracy_compliance_crackdown/bureaucracy_compliance_crackdown_seed986661465.png",
+          "source": "comfyui",
+          "prompt_id": "3945b6d7-6ffa-4590-9499-eb4a0116b8de",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, grim inspector lunging in with absolute certainty, one dossier, stark overhead light, amber, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:18:13"
+        },
+        {
+          "seed": 1438014154,
+          "file": "art/generated/card_art/bureaucracy_compliance_crackdown/bureaucracy_compliance_crackdown_seed1438014154.png",
+          "source": "comfyui",
+          "prompt_id": "7eae13fb-da81-4d54-9922-7edfa8c43b35",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, grim inspector lunging in with absolute certainty, one dossier, stark overhead light, amber, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:19:06"
+        },
+        {
+          "seed": 451804874,
+          "file": "art/generated/card_art/bureaucracy_compliance_crackdown/bureaucracy_compliance_crackdown_seed451804874.png",
+          "source": "comfyui",
+          "prompt_id": "2fb1dcea-480a-4b58-82ef-ea30905a186e",
+          "positive_prompt": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art, grim inspector lunging in with absolute certainty, one dossier, stark overhead light, amber, accent colors to focus on",
+          "negative_prompt": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified, text, watermark, logo, signature, speech bubble, speech bubbles, word balloon, dialogue balloon, caption box, blurry, low quality, jpeg artifacts",
+          "width": 1024,
+          "height": 688,
+          "generated_at": "2026-03-12 02:20:06"
+        }
+      ],
+      "selected_seed": 1246841650,
+      "approved": false,
+      "notes": "Approval-stamp test batch.",
+      "promoted": true,
+      "godot_card_path": "common_cards/promoted/bureaucracy_compliance_crackdown.tres",
+      "godot_icon_path": "art/promoted/card_icons/bureaucracy_compliance_crackdown.png",
+      "promoted_seed": 1246841650,
+      "promoted_at": "2026-03-12 02:20:06"
     }
   ],
   "art_width_default": 1024,
   "art_height_default": 688,
-  "house_style_positive_default": "graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art",
+  "house_style_positive_default": "Ink art of, graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art",
   "house_style_negative_default": "photorealistic, 3d render, anime, manga, soft gradients, painterly, watercolor, airbrush, neon colors, bright saturated colors, glowing effects, fantasy lighting, blur, bokeh, soft focus, watermark, logo, speech bubbles, text, letters, numbers, extra limbs, deformed hands, extra fingers, bad anatomy, duplicate figures, multiple people unless specified",
-  "color_accent_suffix_default": "used sparingly on small props as a graphic highlight (not as a full background wash)"
+  "color_accent_suffix_default": "accent colors to focus on"
 }

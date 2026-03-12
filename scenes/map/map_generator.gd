@@ -11,6 +11,7 @@ const MONSTER_ROOM_WEIGHT := 12.0
 const EVENT_ROOM_WEIGHT := 5.0
 const SHOP_ROOM_WEIGHT := 2.5
 const CAMPFIRE_ROOM_WEIGHT := 4.0
+const APPROVAL_ROOM_WEIGHT := 2.0
 
 @export var battle_stats_pool: BattleStatsPool
 @export var event_room_pool: EventRoomPool
@@ -19,7 +20,8 @@ var random_room_type_weights = {
 	Room.Type.MONSTER: 0.0,
 	Room.Type.CAMPFIRE: 0.0,
 	Room.Type.SHOP: 0.0,
-	Room.Type.EVENT: 0.0
+	Room.Type.EVENT: 0.0,
+	Room.Type.APPROVAL: 0.0
 }
 var random_room_type_total_weight := 0
 var map_data: Array[Array]
@@ -39,6 +41,7 @@ func generate_map() -> Array[Array]:
 	_setup_boss_room()
 	_setup_random_room_weights()
 	_setup_room_types()
+	_ensure_approval_room()
 	
 	return map_data
 
@@ -144,8 +147,9 @@ func _setup_random_room_weights() -> void:
 	random_room_type_weights[Room.Type.CAMPFIRE] = MONSTER_ROOM_WEIGHT + CAMPFIRE_ROOM_WEIGHT
 	random_room_type_weights[Room.Type.SHOP] = MONSTER_ROOM_WEIGHT + CAMPFIRE_ROOM_WEIGHT + SHOP_ROOM_WEIGHT
 	random_room_type_weights[Room.Type.EVENT] = random_room_type_weights[Room.Type.SHOP] + EVENT_ROOM_WEIGHT
+	random_room_type_weights[Room.Type.APPROVAL] = random_room_type_weights[Room.Type.EVENT] + APPROVAL_ROOM_WEIGHT
 	
-	random_room_type_total_weight = random_room_type_weights[Room.Type.EVENT]
+	random_room_type_total_weight = random_room_type_weights[Room.Type.APPROVAL]
 
 
 func _setup_room_types() -> void:
@@ -231,6 +235,29 @@ func _room_has_parent_of_type(room: Room, type: Room.Type) -> bool:
 			return true
 	
 	return false
+
+
+func _ensure_approval_room() -> void:
+	for current_floor in map_data:
+		for room: Room in current_floor:
+			if room.type == Room.Type.APPROVAL:
+				return
+
+	var candidates: Array[Room] = []
+	for current_floor in map_data:
+		for room: Room in current_floor:
+			if room.row < 2 or room.row > FLOORS - 3:
+				continue
+			if room.type == Room.Type.MONSTER or room.type == Room.Type.EVENT:
+				candidates.append(room)
+
+	if candidates.is_empty():
+		return
+
+	var chosen := candidates.pick_random() as Room
+	chosen.type = Room.Type.APPROVAL
+	chosen.battle_stats = null
+	chosen.event_scene = null
 
 
 func _get_random_room_type_by_weight() -> Room.Type:
