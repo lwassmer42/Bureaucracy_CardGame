@@ -81,15 +81,31 @@ def _infer_approval_gain_from_rules(rules_text: str) -> int | None:
     return int(match.group(1))
 
 
-def _infer_approval_bonus_from_rules(rules_text: str) -> int | None:
+def _infer_approval_bonus_from_rules(rules_text: str) -> tuple[str, int] | None:
     match = re.search(
-        r"(?:^|\W)(?:Approval bonus|If stamped, gain|If approved, gain)\s+(\d+)(?:\W|$)",
+        (
+            r"(?:^|\W)(?:Approval bonus|If stamped,\s*gain|If approved,\s*gain)\s+(\d+)\s+"
+            r"(damage|block|draw|cards?|cards?\s+to\s+draw|exposed)(?:\W|$)"
+        ),
         rules_text,
         flags=re.IGNORECASE,
     )
     if match is None:
         return None
-    return int(match.group(1))
+
+    amount = int(match.group(1))
+    effect_raw = match.group(2).lower()
+
+    if effect_raw in {"damage"}:
+        return ("approval_bonus_damage", amount)
+    if effect_raw in {"block"}:
+        return ("approval_bonus_block", amount)
+    if effect_raw in {"draw", "card", "cards", "card to draw", "cards to draw"}:
+        return ("approval_bonus_cards_to_draw", amount)
+    if effect_raw in {"exposed"}:
+        return ("approval_bonus_exposed_to_apply", amount)
+
+    return None
 
 
 def _normalize_promoted_card_fields(card: dict[str, Any]) -> None:
@@ -108,10 +124,16 @@ def _normalize_promoted_card_fields(card: dict[str, Any]) -> None:
         if inferred_approval_gain is not None:
             card["approval_gain"] = inferred_approval_gain
 
-    if card.get("approval_bonus_damage") is None:
+    if (
+        card.get("approval_bonus_damage") is None
+        and card.get("approval_bonus_block") is None
+        and card.get("approval_bonus_cards_to_draw") is None
+        and card.get("approval_bonus_exposed_to_apply") is None
+    ):
         inferred_approval_bonus = _infer_approval_bonus_from_rules(rules)
         if inferred_approval_bonus is not None:
-            card["approval_bonus_damage"] = inferred_approval_bonus
+            inferred_key, inferred_value = inferred_approval_bonus
+            card[inferred_key] = inferred_value
 
 
 def _safe_path_from_url(url_path: str) -> Path | None:
@@ -753,11 +775,6 @@ class Handler(BaseHTTPRequestHandler):
                 "budget_cost": as_int(card.get("budget_cost"), 0),
                 "budget_gain": as_int(card.get("budget_gain"), 0),
                 "draw_from_backlog": as_int(card.get("draw_from_backlog"), 0),
-                "approval_gain": as_int(card.get("approval_gain"), 0),
-                "approval_bonus_damage": as_int(card.get("approval_bonus_damage"), 0),
-                "approval_bonus_block": as_int(card.get("approval_bonus_block"), 0),
-                "approval_bonus_cards_to_draw": as_int(card.get("approval_bonus_cards_to_draw"), 0),
-                "approval_bonus_exposed_to_apply": as_int(card.get("approval_bonus_exposed_to_apply"), 0),
                 "chain_bonus_damage": as_int(card.get("chain_bonus_damage"), 0),
                 "chain_bonus_block": as_int(card.get("chain_bonus_block"), 0),
                 "chain_bonus_cards_to_draw": as_int(card.get("chain_bonus_cards_to_draw"), 0),
@@ -895,10 +912,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
