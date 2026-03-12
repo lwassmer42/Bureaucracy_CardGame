@@ -6,7 +6,7 @@ This file is the source of truth for bureaucracy card-art prompting. Use it when
 
 Positive:
 
-`Ink art of [subject with attitude], [action/pose energy], [max 2 environment props], [lighting mood], [1 or 2 optional accent colors to focus on], graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art`
+`Ink art of [subject], [action/pose if person or energy if object], [lighting mood], [accent color], graphic novel illustration, bold ink outlines, flat colors, limited color palette, high contrast, clean linework, strong silhouette, dramatic lighting, professional comic art`
 
 Negative:
 
@@ -18,7 +18,7 @@ Prompt for mood, pose energy, and atmosphere instead of literal card mechanics.
 
 Formula:
 
-`[subject with attitude] + [action/pose energy] + [max 2 environment props] + [lighting mood] + [1 or 2 optional accent colors]`
+`[subject] + [action/pose if person or energy if object] + [lighting mood] + [accent color]`
 
 Examples:
 
@@ -50,6 +50,8 @@ Keep each positive prompt under 120 tokens. Longer prompts weaken the style anch
 ## Batch Notes
 
 - Randomize the seed per card.
+- Keep the deck-level mix near 60/40: about 60% no-people prompts and 40% people prompts with clear emotional expression.
 - If `contains_people` is false, bias toward `object only, isolated on plain background` and avoid figure descriptors.
+- If `contains_people` is true, explicitly include emotional tone in the subject/pose language.
 - Generate 4 variants per card by default.
 - Preferred ComfyUI Lightning settings when the workflow exposes them: 8 steps, CFG 2.0, scheduler `sgm_uniform`.

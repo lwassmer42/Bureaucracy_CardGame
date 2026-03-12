@@ -530,12 +530,22 @@ class Handler(BaseHTTPRequestHandler):
         if not isinstance(color_accent, str):
             color_accent = ""
 
-        positive_parts: list[str] = []
-        if use_house_style and house_pos.strip():
-            positive_parts.append(house_pos.strip())
-        positive_parts.append(prompt.strip())
+        prompt_core = prompt.strip()
+        if use_house_style:
+            if not prompt_core.lower().startswith("ink art of"):
+                prompt_core = f"Ink art of {prompt_core}"
+
+        house_style_tail = house_pos.strip()
+        if use_house_style and house_style_tail.lower().startswith("ink art of"):
+            house_style_tail = house_style_tail[len("ink art of"):].strip()
+            if house_style_tail.startswith(","):
+                house_style_tail = house_style_tail[1:].strip()
+
+        positive_parts: list[str] = [prompt_core]
         if use_house_style and color_accent.strip():
             positive_parts.append(f"{color_accent.strip()}, {color_suffix.strip()}")
+        if use_house_style and house_style_tail:
+            positive_parts.append(house_style_tail)
         positive_prompt = ", ".join([p.strip().strip(",") for p in positive_parts if p and p.strip()])
 
         negative_parts: list[str] = []
