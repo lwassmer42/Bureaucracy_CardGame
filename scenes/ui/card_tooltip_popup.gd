@@ -56,5 +56,9 @@ func _format_card_description(card: Card) -> String:
 
 
 func _on_gui_input(event: InputEvent) -> void:
-	if event.is_action_pressed("left_mouse"):
+	if not event.is_action_pressed("left_mouse"):
+		return
+
+	var hovered := get_viewport().gui_get_hovered_control()
+	if hovered == null or hovered == self or hovered == background:
 		hide_tooltip()
