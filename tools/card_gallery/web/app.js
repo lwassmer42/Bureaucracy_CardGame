@@ -6,6 +6,7 @@ const state = {
   artImgCache: new Map(),
   cardFilter: '',
   cardSort: 'generated_desc',
+  selectedIds: new Set(),
 };
 
 function el(id) { return document.getElementById(id); }
@@ -59,6 +60,44 @@ function getActiveCard() {
   return state.cardsDoc?.cards?.find(c => c.id === state.activeId) || null;
 }
 
+function pruneSelection() {
+  if (!state.cardsDoc?.cards) {
+    state.selectedIds.clear();
+    return;
+  }
+  const existing = new Set(state.cardsDoc.cards.map(c => c.id));
+  for (const id of [...state.selectedIds]) {
+    if (!existing.has(id)) state.selectedIds.delete(id);
+  }
+}
+
+function getSelectedCards() {
+  const cards = state.cardsDoc?.cards || [];
+  return cards.filter(c => state.selectedIds.has(c.id));
+}
+
+function getSelectionCount() {
+  return state.selectedIds.size;
+}
+
+function hasSelectedPromotedCards() {
+  return getSelectedCards().some(c => !!c.promoted);
+}
+
+function toggleCardSelected(cardId, selected) {
+  if (selected) state.selectedIds.add(cardId);
+  else state.selectedIds.delete(cardId);
+  renderCardList();
+  bindEditor(getActiveCard());
+}
+
+function updateDeleteButtonLabel() {
+  const btn = el('deleteBtn');
+  if (!btn) return;
+  const n = getSelectionCount();
+  btn.textContent = n > 0 ? `Delete Selected (${n})` : 'Delete Card';
+}
+
 function parseCardDate(value) {
   if (!value) return 0;
   const normalized = String(value).replace(' ', 'T');
@@ -95,12 +134,65 @@ function sortTimestampDesc(a, b) {
   return right - left;
 }
 
+function normalizeFilterText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+function getMechanicKeywordText(card) {
+  const ints = [
+    'damage',
+    'block',
+    'cards_to_draw',
+    'exposed_to_apply',
+    'budget_gain',
+    'budget_cost',
+    'budget_threshold',
+    'chain_count',
+    'chain_bonus_damage',
+    'chain_bonus_block',
+    'chain_bonus_cards_to_draw',
+    'chain_bonus_exposed_to_apply',
+    'backlog_draw_count',
+  ];
+  const keys = [];
+
+  for (const field of ints) {
+    if (Number(card?.[field] || 0) !== 0) keys.push(field);
+  }
+  if (card?.file_to_backlog) keys.push('file', 'backlog');
+  if (card?.exhaust) keys.push('exhaust');
+
+  return keys.join(' ');
+}
+
 function getVisibleCards() {
-  const query = state.cardFilter.trim().toLowerCase();
+  const queryRaw = state.cardFilter.trim().toLowerCase();
+  const queryNormalized = normalizeFilterText(state.cardFilter);
+  const terms = queryNormalized ? queryNormalized.split(/\s+/).filter(Boolean) : [];
+
   const cards = [...(state.cardsDoc?.cards || [])].filter(card => {
-    if (!query) return true;
-    const haystack = `${card.name || ''} ${card.id || ''}`.toLowerCase();
-    return haystack.includes(query);
+    if (!queryRaw) return true;
+
+    const searchableRaw = [
+      card.name || '',
+      card.id || '',
+      card.rules_text || '',
+      card.notes || '',
+      card.type || '',
+      card.target || '',
+      card.rarity || '',
+      getMechanicKeywordText(card),
+    ].join(' ').toLowerCase();
+
+    const searchableNormalized = normalizeFilterText(searchableRaw);
+    if (!terms.length) {
+      return searchableRaw.includes(queryRaw) || searchableNormalized.includes(queryNormalized);
+    }
+
+    return terms.every(term => searchableRaw.includes(term) || searchableNormalized.includes(term));
   });
 
   cards.sort((a, b) => {
@@ -138,6 +230,7 @@ function renderCardList() {
 
   const cards = getVisibleCards();
   if (!cards.length) {
+    updateDeleteButtonLabel();
     const empty = document.createElement('div');
     empty.className = 'card-list-empty';
     empty.textContent = 'No cards match the current filter.';
@@ -146,8 +239,22 @@ function renderCardList() {
   }
 
   for (const card of cards) {
+    const isActive = card.id === state.activeId;
+    const isSelected = state.selectedIds.has(card.id);
+
     const row = document.createElement('div');
-    row.className = 'card-row' + (card.id === state.activeId ? ' active' : '');
+    row.className = 'card-row'
+      + (isActive ? ' active' : '')
+      + (isSelected ? ' selected' : '');
+
+    const selector = document.createElement('input');
+    selector.type = 'checkbox';
+    selector.className = 'row-selector';
+    selector.checked = isSelected;
+    selector.addEventListener('click', (event) => {
+      event.stopPropagation();
+      toggleCardSelected(card.id, selector.checked);
+    });
 
     const left = document.createElement('div');
     left.style.minWidth = '0';
@@ -160,12 +267,22 @@ function renderCardList() {
     badge.className = 'badge' + ((promoted || approved) ? ' approved' : '');
     badge.textContent = promoted ? 'PROMOTED' : (approved ? 'APPROVED' : 'DRAFT');
 
+    row.appendChild(selector);
     row.appendChild(left);
     row.appendChild(badge);
 
-    row.addEventListener('click', () => selectCard(card.id));
+    row.addEventListener('click', (event) => {
+      if (event.ctrlKey || event.metaKey) {
+        toggleCardSelected(card.id, !state.selectedIds.has(card.id));
+        return;
+      }
+      selectCard(card.id);
+    });
+
     list.appendChild(row);
   }
+
+  updateDeleteButtonLabel();
 }
 
 function bindEditor(card) {
@@ -173,7 +290,7 @@ function bindEditor(card) {
   el('approveBtn').textContent = card?.approved ? 'Unapprove' : 'Approve';
   el('promoteBtn').textContent = card?.promoted ? 'Re-promote' : 'Promote';
   el('promoteBtn').disabled = !card || !card.selected_seed;
-  el('unpromoteBtn').disabled = !card || !card.promoted;
+  el('unpromoteBtn').disabled = !(hasSelectedPromotedCards() || (card && card.promoted));
 
   const set = (id, val) => { el(id).value = (val ?? ''); };
 
@@ -190,6 +307,7 @@ function bindEditor(card) {
     set('negativeInput', '');
     set('notesInput', '');
     set('peopleModeInput', 'auto');
+    updateDeleteButtonLabel();
     return;
   }
 
@@ -224,7 +342,7 @@ function bindEditor(card) {
     el('approveBtn').textContent = card.approved ? 'Unapprove' : 'Approve';
     el('promoteBtn').textContent = card.promoted ? 'Re-promote' : 'Promote';
     el('promoteBtn').disabled = !card.selected_seed;
-    el('unpromoteBtn').disabled = !card.promoted;
+    el('unpromoteBtn').disabled = !(hasSelectedPromotedCards() || !!card.promoted);
     renderCardList();
     renderVariants();
     renderPreview().catch(e => setStatus("Render failed: " + e.message));
@@ -236,6 +354,7 @@ function bindEditor(card) {
   }
   el('peopleModeInput').oninput = onChange;
   el('peopleModeInput').onchange = onChange;
+  updateDeleteButtonLabel();
 }
 
 async function loadImage(src) {
@@ -529,6 +648,11 @@ async function reloadAll() {
   state.frameImg = null;
   state.artImgCache.clear();
 
+  pruneSelection();
+  if (state.activeId && !state.cardsDoc.cards.some(c => c.id === state.activeId)) {
+    state.activeId = null;
+  }
+
   if (!state.activeId && state.cardsDoc?.cards?.length) {
     state.activeId = state.cardsDoc.cards[0].id;
   }
@@ -590,17 +714,24 @@ async function promoteCard() {
 
 async function unpromoteCard() {
   const card = getActiveCard();
-  if (!card || !card.promoted) return;
+  const selectedPromoted = getSelectedCards().filter(c => !!c.promoted);
+  const targets = selectedPromoted.length ? selectedPromoted : ((card && card.promoted) ? [card] : []);
+  if (!targets.length) return;
 
-  setStatus('Removing promoted Godot assets…');
+  setStatus(`Removing promoted Godot assets for ${targets.length} card(s)…`);
   try {
-    const updatedDoc = await apiPost('/api/unpromote', { card_id: card.id });
+    let updatedDoc = state.cardsDoc;
+    for (const target of targets) {
+      updatedDoc = await apiPost('/api/unpromote', { card_id: target.id });
+    }
+
     state.cardsDoc = updatedDoc;
+    pruneSelection();
     renderCardList();
     bindEditor(getActiveCard());
     renderVariants();
     await renderPreview().catch(e => setStatus('Render failed: ' + e.message));
-    setStatus('Unpromoted.');
+    setStatus(`Unpromoted ${targets.length} card(s).`);
     setTimeout(() => setStatus(''), 1500);
   } catch (e) {
     setStatus(`Unpromote failed: ${e.message}`);
@@ -683,19 +814,36 @@ function newCard() {
 
 async function deleteCard() {
   const card = getActiveCard();
-  if (!card) return;
-  const ok = confirm(`Delete ${card.id}? This does not delete generated images.`);
+  const selectedCards = getSelectedCards();
+  const targets = selectedCards.length ? selectedCards : (card ? [card] : []);
+  if (!targets.length) return;
+
+  const label = targets.length === 1
+    ? `${targets[0].id}`
+    : `${targets.length} cards`;
+  const ok = confirm(`Delete ${label}? This does not delete generated images.`);
   if (!ok) return;
 
   try {
-    const updatedDoc = await apiPost('/api/delete_card', { card_id: card.id });
+    let updatedDoc = state.cardsDoc;
+    for (const target of targets) {
+      updatedDoc = await apiPost('/api/delete_card', { card_id: target.id });
+    }
+
     state.cardsDoc = updatedDoc;
-    state.activeId = state.cardsDoc.cards[0]?.id || null;
+    for (const target of targets) {
+      state.selectedIds.delete(target.id);
+    }
+    if (!state.cardsDoc.cards.some(c => c.id === state.activeId)) {
+      state.activeId = state.cardsDoc.cards[0]?.id || null;
+    }
+
+    pruneSelection();
     renderCardList();
     bindEditor(getActiveCard());
     renderVariants();
     await renderPreview();
-    setStatus('Deleted card.');
+    setStatus(`Deleted ${targets.length} card(s).`);
   } catch (e) {
     setStatus(`Delete failed: ${e.message}`);
   }
@@ -709,6 +857,27 @@ function toggleApprove() {
   renderCardList();
   renderPreview().catch(e => setStatus("Render failed: " + e.message));
 }
+function shouldIgnoreShortcutTarget(target) {
+  if (!target) return false;
+  const tag = String(target.tagName || '').toUpperCase();
+  if (target.isContentEditable) return true;
+  return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || tag === 'BUTTON';
+}
+
+function onGlobalKeydown(event) {
+  if (shouldIgnoreShortcutTarget(event.target)) return;
+
+  if (event.key === 'Delete') {
+    event.preventDefault();
+    deleteCard();
+    return;
+  }
+
+  if (!event.ctrlKey && !event.metaKey && !event.altKey && event.key.toLowerCase() === 'u') {
+    event.preventDefault();
+    unpromoteCard();
+  }
+}
 
 function init() {
   el('saveBtn').addEventListener('click', save);
@@ -721,6 +890,7 @@ function init() {
   el('approveBtn').addEventListener('click', toggleApprove);
   el('promoteBtn').addEventListener('click', promoteCard);
   el('unpromoteBtn').addEventListener('click', unpromoteCard);
+  window.addEventListener('keydown', onGlobalKeydown);
   el('cardFilterInput').value = state.cardFilter;
   el('cardSortInput').value = state.cardSort;
   el('cardFilterInput').addEventListener('input', () => {

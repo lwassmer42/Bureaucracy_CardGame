@@ -77,8 +77,8 @@ body {
 }
 
 .card-row {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 18px 1fr auto;
   align-items: center;
   gap: 10px;
   padding: 10px 10px;
@@ -89,9 +89,26 @@ body {
 
 .card-row:hover { background: var(--panel-2); }
 
+.row-selector {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: var(--primary);
+}
+
 .card-row.active {
   background: #232535;
   border-color: #343757;
+}
+
+.card-row.selected {
+  background: #1f2430;
+  border-color: #3a4b80;
+}
+
+.card-row.selected.active {
+  background: #27314a;
+  border-color: #5a74c4;
 }
 
 .badge {
