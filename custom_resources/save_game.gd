@@ -2,6 +2,7 @@ class_name SaveGame
 extends Resource
 
 const SAVE_PATH := "user://savegame.tres"
+static var save_path_override := ""
 
 @export var rng_seed: int
 @export var rng_state: int
@@ -17,17 +18,23 @@ const SAVE_PATH := "user://savegame.tres"
 
 
 func save_data() -> void:
-	var err := ResourceSaver.save(self, SAVE_PATH)
+	var err := ResourceSaver.save(self, get_save_path())
 	assert(err == OK, "Couldn't save the game!")
 
 
 static func load_data() -> SaveGame:
-	if FileAccess.file_exists(SAVE_PATH):
-		return ResourceLoader.load(SAVE_PATH) as SaveGame
+	var save_path := get_save_path()
+	if FileAccess.file_exists(save_path):
+		return ResourceLoader.load(save_path) as SaveGame
 	
 	return null
 
 
 static func delete_data() -> void:
-	if FileAccess.file_exists(SAVE_PATH):
-		DirAccess.remove_absolute(SAVE_PATH)
+	var save_path := get_save_path()
+	if FileAccess.file_exists(save_path):
+		DirAccess.remove_absolute(save_path)
+
+
+static func get_save_path() -> String:
+	return save_path_override if not save_path_override.is_empty() else SAVE_PATH

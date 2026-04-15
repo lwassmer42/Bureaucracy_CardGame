@@ -15,6 +15,7 @@
   - `python -m py_compile` for touched Python pipeline files
   - headless Godot project load
   - a short state-ownership sanity pass for deck/backlog/save mutations if card runtime code changed
+- For gameplay-flow changes, prefer the QA autoplay harness documented in `QA_AUTOPLAY.md`.
 - If a branch is risky or the local worktree is noisy, use a clean temporary worktree for validation rather than disturbing the main workspace.
 
 ## Skills To Use
