@@ -4,7 +4,7 @@ extends Node2D
 @export var battle_stats: BattleStats
 @export var char_stats: CharacterStats
 @export var music: AudioStream
-@export var relics: RelicHandler
+@export var relics: Node
 
 @onready var battle_ui: BattleUI = $BattleUI
 @onready var player_handler: PlayerHandler = $PlayerHandler
@@ -34,12 +34,15 @@ func start_battle() -> void:
 	enemy_handler.setup_enemies(battle_stats)
 	enemy_handler.reset_enemy_actions()
 	
+	if not _has_relic_handler():
+		push_error("Battle is missing a usable relic handler")
+		return
 	relics.relics_activated.connect(_on_relics_activated)
 	relics.activate_relics_by_type(Relic.Type.START_OF_COMBAT)
 
 
 func _on_enemies_child_order_changed() -> void:
-	if enemy_handler.get_child_count() == 0 and is_instance_valid(relics):
+	if enemy_handler.get_child_count() == 0 and _has_relic_handler():
 		relics.activate_relics_by_type(Relic.Type.END_OF_COMBAT)
 
 
@@ -63,4 +66,13 @@ func _on_relics_activated(type: Relic.Type) -> void:
 
 func _get_chain_tracker():
 	return get_tree().root.get_node_or_null("ChainTracker")
+
+
+func _has_relic_handler() -> bool:
+	return (
+		relics != null
+		and is_instance_valid(relics)
+		and relics.has_method("activate_relics_by_type")
+		and relics.has_signal("relics_activated")
+	)
 

@@ -14,12 +14,13 @@ const HAND_DISCARD_INTERVAL := 0.25
 const BACKLOG_DRAW_COST := 3
 const MISFILED_NOTICE := preload("res://common_cards/debuffs/bureaucracy_misfiled_notice.tres")
 
-@export var relics: RelicHandler
+@export var relics: Node
 @export var player: Player
 @export var hand: Hand
 
 var character: CharacterStats
 var is_player_turn := false
+var _emit_player_hand_drawn_after_draw := false
 
 
 func _ready() -> void:
@@ -33,7 +34,8 @@ func start_battle(char_stats: CharacterStats) -> void:
 	character.draw_pile = character.deck.custom_duplicate()
 	character.draw_pile.shuffle()
 	character.discard = CardPile.new()
-	relics.relics_activated.connect(_on_relics_activated)
+	if _has_relic_handler():
+		relics.relics_activated.connect(_on_relics_activated)
 	player.status_handler.statuses_applied.connect(_on_statuses_applied)
 	start_turn()
 
@@ -42,13 +44,15 @@ func start_turn() -> void:
 	is_player_turn = true
 	character.block = 0
 	character.reset_mana()
-	relics.activate_relics_by_type(Relic.Type.START_OF_TURN)
+	if _has_relic_handler():
+		relics.activate_relics_by_type(Relic.Type.START_OF_TURN)
 
 
 func end_turn() -> void:
 	is_player_turn = false
 	hand.disable_hand()
-	relics.activate_relics_by_type(Relic.Type.END_OF_TURN)
+	if _has_relic_handler():
+		relics.activate_relics_by_type(Relic.Type.END_OF_TURN)
 
 
 func draw_card() -> void:
@@ -60,17 +64,13 @@ func draw_card() -> void:
 
 
 func draw_cards(amount: int, is_start_of_turn_draw: bool = false) -> void:
+	_emit_player_hand_drawn_after_draw = is_start_of_turn_draw
 	var tween := create_tween()
 	for i in range(amount):
 		tween.tween_callback(draw_card)
 		tween.tween_interval(HAND_DRAW_INTERVAL)
 	
-	tween.finished.connect(
-		func(): 
-			hand.enable_hand()
-			if is_start_of_turn_draw:
-				Events.player_hand_drawn.emit()
-	)
+	tween.finished.connect(_on_draw_cards_finished)
 
 
 func discard_cards() -> void:
@@ -84,10 +84,7 @@ func discard_cards() -> void:
 		tween.tween_callback(hand.discard_card.bind(card_ui))
 		tween.tween_interval(HAND_DISCARD_INTERVAL)
 	
-	tween.finished.connect(
-		func():
-			Events.player_hand_discarded.emit()
-	)
+	tween.finished.connect(_on_discard_cards_finished)
 
 
 func reshuffle_deck_from_discard() -> void:
@@ -191,4 +188,24 @@ func _on_relics_activated(type: Relic.Type) -> void:
 			player.status_handler.apply_statuses_by_type(Status.Type.START_OF_TURN)
 		Relic.Type.END_OF_TURN:
 			player.status_handler.apply_statuses_by_type(Status.Type.END_OF_TURN)
+
+
+func _on_draw_cards_finished() -> void:
+	hand.enable_hand()
+	if _emit_player_hand_drawn_after_draw:
+		Events.player_hand_drawn.emit()
+	_emit_player_hand_drawn_after_draw = false
+
+
+func _on_discard_cards_finished() -> void:
+	Events.player_hand_discarded.emit()
+
+
+func _has_relic_handler() -> bool:
+	return (
+		relics != null
+		and is_instance_valid(relics)
+		and relics.has_method("activate_relics_by_type")
+		and relics.has_signal("relics_activated")
+	)
 

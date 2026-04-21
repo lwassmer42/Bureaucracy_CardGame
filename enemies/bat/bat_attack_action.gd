@@ -21,11 +21,7 @@ func perform_action() -> void:
 	tween.tween_callback(damage_effect.execute.bind(target_array))
 	tween.tween_interval(0.25)
 	tween.tween_property(enemy, "global_position", start, 0.4)
-	
-	tween.finished.connect(
-		func():
-			Events.enemy_action_completed.emit(enemy)
-	)
+	tween.finished.connect(Callable(self, "emit_action_completed"))
 
 
 func update_intent_text() -> void:

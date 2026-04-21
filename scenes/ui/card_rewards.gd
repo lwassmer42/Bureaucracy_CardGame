@@ -17,18 +17,8 @@ var selected_card: Card
 
 func _ready() -> void:
 	_clear_rewards()
-	
-	take_button.pressed.connect(
-		func(): 
-			card_reward_selected.emit(selected_card)
-			queue_free()
-	)
-	
-	skip_card_reward.pressed.connect(
-		func(): 
-			card_reward_selected.emit(null)
-			queue_free()
-	)
+	take_button.pressed.connect(_on_take_button_pressed)
+	skip_card_reward.pressed.connect(_on_skip_card_reward_pressed)
 
 
 func _input(event: InputEvent) -> void:
@@ -48,6 +38,16 @@ func _clear_rewards() -> void:
 func _show_tooltip(card: Card) -> void:
 	selected_card = card
 	card_tooltip_popup.show_tooltip(card)
+
+
+func _on_take_button_pressed() -> void:
+	card_reward_selected.emit(selected_card)
+	queue_free()
+
+
+func _on_skip_card_reward_pressed() -> void:
+	card_reward_selected.emit(null)
+	queue_free()
 
 
 func set_rewards(new_cards: Array[Card]) -> void:
