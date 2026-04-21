@@ -2,7 +2,7 @@ class_name Treasure
 extends Control
 
 @export var treasure_relic_pool: Array[Relic]
-@export var relic_handler: RelicHandler
+@export var relic_handler: Node
 @export var char_stats: CharacterStats
 
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
@@ -13,7 +13,11 @@ func generate_relic() -> void:
 	var available_relics := treasure_relic_pool.filter(
 		func(relic: Relic):
 			var can_appear := relic.can_appear_as_reward(char_stats)
-			var already_had_it := relic_handler.has_relic(relic.id)
+			var already_had_it: bool = (
+				relic_handler != null
+				and relic_handler.has_method("has_relic")
+				and relic_handler.has_relic(relic.id)
+			)
 			return can_appear and not already_had_it
 	)
 	found_relic = RNG.array_pick_random(available_relics)

@@ -9,6 +9,8 @@ const RELIC_UI = preload("res://scenes/relic_handler/relic_ui.tscn")
 @onready var relics_control: RelicsControl = $RelicsControl
 @onready var relics: HBoxContainer = %Relics
 
+var _pending_relic_type: Relic.Type = Relic.Type.START_OF_COMBAT
+
 
 func _ready() -> void:
 	relics.child_exiting_tree.connect(_on_relics_child_exiting_tree)
@@ -26,12 +28,13 @@ func activate_relics_by_type(type: Relic.Type) -> void:
 		relics_activated.emit(type)
 		return
 	
+	_pending_relic_type = type
 	var tween := create_tween()
 	for relic_ui: RelicUI in relic_queue:
 		tween.tween_callback(relic_ui.relic.activate_relic.bind(relic_ui))
 		tween.tween_interval(RELIC_APPLY_INTERVAL)
 	
-	tween.finished.connect(func(): relics_activated.emit(type))
+	tween.finished.connect(_on_relics_tween_finished)
 
 
 func add_relics(relics_array: Array[Relic]) -> void:
@@ -81,3 +84,7 @@ func _on_relics_child_exiting_tree(relic_ui: RelicUI) -> void:
 	
 	if relic_ui.relic:
 		relic_ui.relic.deactivate_relic(relic_ui)
+
+
+func _on_relics_tween_finished() -> void:
+	relics_activated.emit(_pending_relic_type)

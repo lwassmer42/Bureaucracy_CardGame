@@ -17,11 +17,11 @@ const MAIN_MENU_PATH := "res://scenes/ui/main_menu.tscn"
 @onready var health_ui: HealthUI = %HealthUI
 @onready var gold_ui: GoldUI = %GoldUI
 @onready var budget_ui = %BudgetUI
-@onready var relic_handler: RelicHandler = %RelicHandler
-@onready var relic_tooltip: RelicTooltip = %RelicTooltip
-@onready var deck_button: CardPileOpener = %DeckButton
-@onready var deck_view: CardPileView = %DeckView
-@onready var pause_menu: PauseMenu = $PauseMenu
+@onready var relic_handler = $TopBar/BarItems/RelicHandlerContainer/RelicHandler
+@onready var relic_tooltip = $TopBar/RelicTooltip
+@onready var deck_button = $TopBar/BarItems/DeckButton
+@onready var deck_view = $TopBar/DeckView
+@onready var pause_menu := get_node_or_null("PauseMenu") as PauseMenu
 
 @onready var battle_button: Button = %BattleButton
 @onready var campfire_button: Button = %CampfireButton
@@ -39,10 +39,8 @@ func _ready() -> void:
 	if not run_startup:
 		return
 	
-	pause_menu.save_and_quit.connect(
-		func(): 
-			get_tree().change_scene_to_file(MAIN_MENU_PATH)
-	)
+	if pause_menu != null:
+		pause_menu.save_and_quit.connect(_on_save_and_quit)
 	
 	match run_startup.type:
 		RunStartup.Type.NEW_RUN:
@@ -72,7 +70,8 @@ func _save_run(was_on_map: bool) -> void:
 	save_data.char_stats = character
 	save_data.current_deck = character.deck
 	save_data.current_health = character.health
-	save_data.relics = relic_handler.get_all_relics()
+	var live_relic_handler = _get_relic_handler()
+	save_data.relics = live_relic_handler.get_all_relics() if live_relic_handler != null else []
 	save_data.last_room = map.last_room
 	save_data.map_data = map.map_data.duplicate()
 	save_data.floors_climbed = map.floors_climbed
@@ -89,7 +88,9 @@ func _load_run() -> void:
 	character = save_data.char_stats
 	character.deck = save_data.current_deck
 	character.health = save_data.current_health
-	relic_handler.add_relics(save_data.relics)
+	var live_relic_handler = _get_relic_handler()
+	if live_relic_handler != null:
+		live_relic_handler.add_relics(save_data.relics)
 	_setup_top_bar()
 	_setup_event_connections()
 	
@@ -143,12 +144,25 @@ func _setup_top_bar():
 	gold_ui.run_stats = stats
 	budget_ui.run_stats = stats
 	
-	relic_handler.add_relic(character.starting_relic)
-	Events.relic_tooltip_requested.connect(relic_tooltip.show_tooltip)
+	var live_relic_handler = _get_relic_handler()
+	var live_relic_tooltip = _get_relic_tooltip()
+	if live_relic_handler != null:
+		live_relic_handler.add_relic(character.starting_relic)
+	if live_relic_tooltip != null:
+		Events.relic_tooltip_requested.connect(live_relic_tooltip.show_tooltip)
 	
-	deck_button.card_pile = character.deck
-	deck_view.card_pile = character.deck
-	deck_button.pressed.connect(deck_view.show_current_view.bind("Deck"))
+	var live_deck_button = _get_deck_button()
+	var live_deck_view = _get_deck_view()
+	if live_deck_button != null:
+		live_deck_button.card_pile = character.deck
+	if live_deck_view != null:
+		live_deck_view.card_pile = character.deck
+	if live_deck_button != null and live_deck_view != null:
+		live_deck_button.pressed.connect(live_deck_view.show_current_view.bind("Deck"))
+
+
+func _on_save_and_quit() -> void:
+	get_tree().change_scene_to_file(MAIN_MENU_PATH)
 
 
 func _show_regular_battle_rewards() -> void:
@@ -164,13 +178,13 @@ func _on_battle_room_entered(room: Room) -> void:
 	var battle_scene: Battle = _change_view(BATTLE_SCENE) as Battle
 	battle_scene.char_stats = character
 	battle_scene.battle_stats = room.battle_stats
-	battle_scene.relics = relic_handler
+	battle_scene.relics = _get_relic_handler()
 	battle_scene.start_battle()
 
 
 func _on_treasure_room_entered() -> void:
 	var treasure_scene := _change_view(TREASURE_SCENE) as Treasure
-	treasure_scene.relic_handler = relic_handler
+	treasure_scene.relic_handler = _get_relic_handler()
 	treasure_scene.char_stats = character
 	treasure_scene.generate_relic()
 
@@ -179,7 +193,7 @@ func _on_treasure_room_exited(relic: Relic) -> void:
 	var reward_scene := _change_view(BATTLE_REWARD_SCENE) as BattleReward
 	reward_scene.run_stats = stats
 	reward_scene.character_stats = character
-	reward_scene.relic_handler = relic_handler
+	reward_scene.relic_handler = _get_relic_handler()
 	
 	reward_scene.add_relic_reward(relic)
 
@@ -193,7 +207,7 @@ func _on_shop_entered() -> void:
 	var shop := _change_view(SHOP_SCENE) as Shop
 	shop.char_stats = character
 	shop.run_stats = stats
-	shop.relic_handler = relic_handler
+	shop.relic_handler = _get_relic_handler()
 	Events.shop_entered.emit(shop)
 	shop.populate_shop()
 
@@ -239,3 +253,19 @@ func _on_map_exited(room: Room) -> void:
 			_on_event_room_entered(room)
 		Room.Type.APPROVAL:
 			_on_approval_room_entered()
+
+
+func _get_relic_handler():
+	return get_node_or_null("TopBar/BarItems/RelicHandlerContainer/RelicHandler")
+
+
+func _get_relic_tooltip():
+	return get_node_or_null("TopBar/RelicTooltip")
+
+
+func _get_deck_button():
+	return get_node_or_null("TopBar/BarItems/DeckButton")
+
+
+func _get_deck_view():
+	return get_node_or_null("TopBar/DeckView")

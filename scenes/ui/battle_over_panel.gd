@@ -11,7 +11,7 @@ enum Type {WIN, LOSE}
 
 
 func _ready() -> void:
-	continue_button.pressed.connect(func(): Events.battle_won.emit())
+	continue_button.pressed.connect(_on_continue_button_pressed)
 	main_menu_button.pressed.connect(get_tree().change_scene_to_file.bind(MAIN_MENU))
 	Events.battle_over_screen_requested.connect(show_screen)
 
@@ -22,3 +22,7 @@ func show_screen(text: String, type: Type) -> void:
 	main_menu_button.visible = type == Type.LOSE
 	show()
 	get_tree().paused = true
+
+
+func _on_continue_button_pressed() -> void:
+	Events.battle_won.emit()

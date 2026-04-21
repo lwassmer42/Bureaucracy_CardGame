@@ -7,7 +7,7 @@ const SHOP_RELIC = preload("res://scenes/shop/shop_relic.tscn")
 @export var shop_relics: Array[Relic]
 @export var char_stats: CharacterStats
 @export var run_stats: RunStats
-@export var relic_handler: RelicHandler
+@export var relic_handler: Node
 
 @onready var cards: HBoxContainer = %Cards
 @onready var relics: HBoxContainer = %Relics
@@ -77,7 +77,11 @@ func _generate_shop_relics() -> void:
 	var available_relics := shop_relics.filter(
 		func(relic: Relic):
 			var can_appear := relic.can_appear_as_reward(char_stats)
-			var already_had_it := relic_handler.has_relic(relic.id)
+			var already_had_it: bool = (
+				relic_handler != null
+				and relic_handler.has_method("has_relic")
+				and relic_handler.has_relic(relic.id)
+			)
 			return can_appear and not already_had_it
 	)
 	
@@ -125,7 +129,8 @@ func _on_shop_card_bought(card: Card, gold_cost: int) -> void:
 
 
 func _on_shop_relic_bought(relic: Relic, gold_cost: int) -> void:
-	relic_handler.add_relic(relic)
+	if relic_handler != null and relic_handler.has_method("add_relic"):
+		relic_handler.add_relic(relic)
 	run_stats.gold -= gold_cost
 
 	if relic is CouponsRelic:

@@ -24,3 +24,17 @@ func perform_action() -> void:
 
 func update_intent_text() -> void:
 	intent.current_text = intent.base_text
+
+
+func emit_action_completed() -> void:
+	if enemy == null or not is_instance_valid(enemy):
+		return
+	Events.enemy_action_completed.emit(enemy)
+
+
+func schedule_action_completed(delay_seconds: float) -> void:
+	var tree := get_tree()
+	if tree == null:
+		emit_action_completed()
+		return
+	tree.create_timer(delay_seconds, false).timeout.connect(Callable(self, "emit_action_completed"))

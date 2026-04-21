@@ -10,7 +10,7 @@ const CARD_TEXT := "Add New Card"
 
 @export var run_stats: RunStats
 @export var character_stats: CharacterStats
-@export var relic_handler: RelicHandler
+@export var relic_handler: Node
 
 @onready var rewards: VBoxContainer = %Rewards
 
@@ -86,7 +86,7 @@ func _on_card_reward_taken(card: Card) -> void:
 
 
 func _on_relic_reward_taken(relic: Relic) -> void:
-	if not relic or not relic_handler:
+	if not relic or relic_handler == null or not relic_handler.has_method("add_relic"):
 		return
 		
 	relic_handler.add_relic(relic)

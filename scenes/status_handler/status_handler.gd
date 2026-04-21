@@ -8,6 +8,8 @@ const STATUS_UI = preload("res://scenes/status_handler/status_ui.tscn")
 
 @export var status_owner: Node2D
 
+var _pending_status_type: Status.Type = Status.Type.START_OF_TURN
+
 
 func apply_statuses_by_type(type: Status.Type) -> void:
 	if type == Status.Type.EVENT_BASED:
@@ -21,12 +23,13 @@ func apply_statuses_by_type(type: Status.Type) -> void:
 		statuses_applied.emit(type)
 		return
 	
+	_pending_status_type = type
 	var tween := create_tween()
 	for status: Status in status_queue:
 		tween.tween_callback(status.apply_status.bind(status_owner))
 		tween.tween_interval(STATUS_APPLY_INTERVAL)
 	
-	tween.finished.connect(func(): statuses_applied.emit(type))
+	tween.finished.connect(_on_statuses_tween_finished)
 
 
 func add_status(status: Status) -> void:
@@ -87,3 +90,7 @@ func _on_status_applied(status: Status) -> void:
 func _on_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("left_mouse"):
 		Events.status_tooltip_requested.emit(_get_all_statuses())
+
+
+func _on_statuses_tween_finished() -> void:
+	statuses_applied.emit(_pending_status_type)
