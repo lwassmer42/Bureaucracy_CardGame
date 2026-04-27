@@ -5,6 +5,9 @@ extends Stats
 @export var character_name: String
 @export_multiline var description: String
 @export var portrait: Texture
+@export var sprite_frames: SpriteFrames
+@export var sprite_animation_scale := Vector2.ONE
+@export var sprite_animation_offset := Vector2.ZERO
 
 @export_group("Gameplay Data")
 @export var starting_deck: CardPile

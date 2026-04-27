@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CharacterStats" format=3 uid="uid://yyhnroclv601"]
+
+[ext_resource type="Script" uid="uid://dytuicfqgqu5k" path="res://custom_resources/character_stats.gd" id="1_6y2aa"]
+[ext_resource type="Texture2D" uid="uid://b0jcgafgk3cfv" path="res://characters/Intern/spritesheet.png" id="1_08c8s"]
+[ext_resource type="SpriteFrames" uid="uid://b5fj2b3p6vw16" path="res://characters/Intern/intern_sprite_frames.tres" id="2_q6a4a"]
+[ext_resource type="Resource" uid="uid://cno2mmhf4bjci" path="res://characters/warrior/warrior_draftable_cards.tres" id="3_twfyw"]
+[ext_resource type="Resource" uid="uid://dyyfi3rcfxyug" path="res://characters/warrior/warrior_starting_deck.tres" id="4_enhbd"]
+[ext_resource type="Resource" uid="uid://dgsppvwlatlhw" path="res://relics/healing_potion.tres" id="5_2ympw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0gwxf"]
+atlas = ExtResource("1_08c8s")
+region = Rect2(0, 0, 512, 512)
+
+[resource]
+script = ExtResource("1_6y2aa")
+character_name = "Intern"
+description = "Underpaid, overdrawn, and trying to survive the paperwork."
+portrait = SubResource("AtlasTexture_0gwxf")
+sprite_frames = ExtResource("2_q6a4a")
+sprite_animation_scale = Vector2(0.05, 0.05)
+starting_deck = ExtResource("4_enhbd")
+draftable_cards = ExtResource("3_twfyw")
+cards_per_turn = 4
+max_mana = 3
+starting_relic = ExtResource("5_2ympw")
+max_health = 25
+art = SubResource("AtlasTexture_0gwxf")

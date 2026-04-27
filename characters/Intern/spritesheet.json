@@ -1,0 +1,30 @@
+{
+  "frame_size": 512,
+  "sheet_width": 4096,
+  "sheet_height": 1536,
+  "grid_cols": 8,
+  "grid_rows": 3,
+  "animations": {
+    "idle": {
+      "row": 0,
+      "frame_count": 4,
+      "fps_recommended": 8,
+      "loop": true,
+      "godot_hint": "Row 0, frames 0\u20133"
+    },
+    "attack": {
+      "row": 1,
+      "frame_count": 6,
+      "fps_recommended": 14,
+      "loop": false,
+      "godot_hint": "Row 1, frames 0\u20135"
+    },
+    "death": {
+      "row": 2,
+      "frame_count": 8,
+      "fps_recommended": 10,
+      "loop": false,
+      "godot_hint": "Row 2, frames 0\u20137"
+    }
+  }
+}

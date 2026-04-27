@@ -13,6 +13,9 @@ script = ExtResource("1_il1gs")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_0r2oj")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+
 [node name="StatsUI" parent="." instance=ExtResource("2_wnqqm")]
 offset_top = 6.0
 offset_bottom = 22.0
