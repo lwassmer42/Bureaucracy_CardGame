@@ -2,6 +2,7 @@ extends Control
 
 const RUN_SCENE = preload("res://scenes/run/run.tscn")
 const ASSASSIN_STATS := preload("res://characters/assassin/assassin.tres")
+const INTERN_STATS := preload("res://characters/Intern/intern.tres")
 const WARRIOR_STATS := preload("res://characters/warrior/warrior.tres")
 const WIZARD_STATS := preload("res://characters/wizard/wizard.tres")
 
@@ -42,3 +43,7 @@ func _on_wizard_button_pressed() -> void:
 
 func _on_assassin_button_pressed() -> void:
 	current_character = ASSASSIN_STATS
+
+
+func _on_intern_button_pressed() -> void:
+	current_character = INTERN_STATS
