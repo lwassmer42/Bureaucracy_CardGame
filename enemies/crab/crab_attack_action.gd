@@ -6,6 +6,8 @@ extends EnemyAction
 func perform_action() -> void:
 	if not enemy or not target:
 		return
+
+	enemy.play_attack_animation()
 	
 	var tween := create_tween().set_trans(Tween.TRANS_QUINT)
 	var start := enemy.global_position

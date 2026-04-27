@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dwt63vvppukag" path="res://scenes/card_target_selector/card_target_selector.tscn" id="3_vyv1n"]
 [ext_resource type="Script" path="res://scenes/enemy/enemy_handler.gd" id="4_41vpn"]
 [ext_resource type="Resource" uid="uid://sbkc4o401k4l" path="res://characters/warrior/warrior.tres" id="4_fwb8a"]
-[ext_resource type="Resource" uid="uid://bnmpwl3k8qb8n" path="res://enemies/crab/crab_enemy.tres" id="5_5flmk"]
+[ext_resource type="Resource" path="res://enemies/printer/printer_enemy.tres" id="5_5flmk"]
 [ext_resource type="Script" path="res://scenes/ui/battle_ui.gd" id="7_18vit"]
 [ext_resource type="Script" path="res://scenes/player/player_handler.gd" id="8_3di7i"]
 [ext_resource type="Resource" uid="uid://bbo24od4aavfj" path="res://enemies/bat/bat_enemy.tres" id="8_d4c2d"]
