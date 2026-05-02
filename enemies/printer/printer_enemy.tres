@@ -7,6 +7,6 @@
 [resource]
 script = ExtResource("2_hxxwi")
 sprite_frames = ExtResource("3_6paem")
-sprite_animation_scale = Vector2(0.03, 0.03)
+sprite_animation_scale = Vector2(0.04, 0.04)
 ai = ExtResource("1_ok5ff")
 max_health = 25

@@ -1,5 +1,7 @@
 extends EnemyAction
 
+const ATTACK_LUNGE_DISTANCE := 130.0
+
 @export var damage := 7
 
 
@@ -11,7 +13,7 @@ func perform_action() -> void:
 	
 	var tween := create_tween().set_trans(Tween.TRANS_QUINT)
 	var start := enemy.global_position
-	var end := target.global_position + Vector2.RIGHT * 32
+	var end := start.move_toward(target.global_position, ATTACK_LUNGE_DISTANCE)
 	var damage_effect := DamageEffect.new()
 	var target_array: Array[Node] = [target]
 	damage_effect.amount = damage
