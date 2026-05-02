@@ -5,7 +5,7 @@ const SPRITE_FRAMES_OUTPUT := "res://enemies/printer/printer_sprite_frames.res"
 const ENEMY_OUTPUT := "res://enemies/printer/printer_enemy.tres"
 const FRAME_SIZE := 512
 const ENEMY_HEALTH := 25
-const ENEMY_SCALE := Vector2(0.04, 0.04)
+const ENEMY_SCALE := Vector2(0.08, 0.08)
 const ENEMY_OFFSET := Vector2.ZERO
 
 const ANIMATIONS := {
