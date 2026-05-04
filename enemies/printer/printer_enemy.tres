@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EnemyStats" format=3]
+
+[ext_resource type="PackedScene" path="res://enemies/crab/crab_enemy_ai.tscn" id="1_ok5ff"]
+[ext_resource type="Script" path="res://custom_resources/enemy_stats.gd" id="2_hxxwi"]
+[ext_resource type="SpriteFrames" path="res://enemies/printer/printer_sprite_frames.res" id="3_6paem"]
+
+[resource]
+script = ExtResource("2_hxxwi")
+sprite_frames = ExtResource("3_6paem")
+sprite_animation_scale = Vector2(0.08, 0.08)
+ai = ExtResource("1_ok5ff")
+max_health = 25
