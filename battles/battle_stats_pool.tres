@@ -10,4 +10,4 @@
 
 [resource]
 script = ExtResource("1_c0dve")
-pool = Array[ExtResource("1_k3ygp")]([ExtResource("1_udfgr"), ExtResource("2_7sd42"), ExtResource("3_p408a"), ExtResource("4_yjlu3"), ExtResource("5_sb1gi")])
+pool = Array[ExtResource("1_k3ygp")]([ExtResource("2_7sd42"), ExtResource("4_yjlu3"), ExtResource("5_sb1gi")])

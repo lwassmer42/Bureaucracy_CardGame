@@ -1,0 +1,31 @@
+{
+  "character": "printer",
+  "frame_size": 512,
+  "sheet_width": 3072,
+  "sheet_height": 1536,
+  "grid_cols": 6,
+  "grid_rows": 3,
+  "animations": {
+    "idle": {
+      "row": 0,
+      "frame_count": 1,
+      "fps_recommended": 8,
+      "loop": true,
+      "godot_hint": "Row 0, frames 0-0"
+    },
+    "attack": {
+      "row": 1,
+      "frame_count": 6,
+      "fps_recommended": 14,
+      "loop": false,
+      "godot_hint": "Row 1, frames 0-5"
+    },
+    "death": {
+      "row": 2,
+      "frame_count": 6,
+      "fps_recommended": 10,
+      "loop": false,
+      "godot_hint": "Row 2, frames 0-5"
+    }
+  }
+}

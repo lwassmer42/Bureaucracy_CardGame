@@ -18,6 +18,9 @@ script = ExtResource("1_ogp3w")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_exhc0")
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
+
 [node name="Arrow" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(16, 0)

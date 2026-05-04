@@ -34,17 +34,18 @@ func reset_enemy_actions() -> void:
 
 
 func start_turn() -> void:
-	if get_child_count() == 0:
-		return
-	
 	acting_enemies.clear()
 	for enemy: Enemy in get_children():
-		acting_enemies.append(enemy)
+		if enemy.is_alive():
+			acting_enemies.append(enemy)
 
 	_start_next_enemy_turn()
 
 
 func _start_next_enemy_turn() -> void:
+	while not acting_enemies.is_empty() and not acting_enemies[0].is_alive():
+		acting_enemies.pop_front()
+
 	if acting_enemies.is_empty():
 		Events.enemy_turn_ended.emit()
 		return
@@ -53,6 +54,11 @@ func _start_next_enemy_turn() -> void:
 
 
 func _on_enemy_statuses_applied(type: Status.Type, enemy: Enemy) -> void:
+	if not enemy.is_alive():
+		acting_enemies.erase(enemy)
+		_start_next_enemy_turn()
+		return
+
 	match type:
 		Status.Type.START_OF_TURN:
 			enemy.do_turn()
@@ -70,9 +76,15 @@ func _on_enemy_died(enemy: Enemy) -> void:
 
 
 func _on_enemy_action_completed(enemy: Enemy) -> void:
+	if not enemy.is_alive():
+		acting_enemies.erase(enemy)
+		_start_next_enemy_turn()
+		return
+
 	enemy.status_handler.apply_statuses_by_type(Status.Type.END_OF_TURN)
 
 
 func _on_player_hand_drawn() -> void:
 	for enemy: Enemy in get_children():
-		enemy.update_intent()
+		if enemy.is_alive():
+			enemy.update_intent()
